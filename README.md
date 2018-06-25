@@ -1,4 +1,4 @@
-# jfinal-cms-shop
+﻿# jfinal-cms-shop
 
 #### 项目介绍
 基于jfinal+element ui+vue的开源商城管理系统
@@ -29,7 +29,7 @@
 
 #### 项目介绍
 
-功能列表
+ **功能列表** 
 1. 商品管理：
 商品列表
 订单管理
@@ -45,15 +45,19 @@
 5. 用户管理
 6. 管理员
 7. 栏目管理
-项目展示
+ **项目展示** 
 
-
-
-
-
-
-
-
-
-
-
+![输入图片说明](https://gitee.com/uploads/images/2018/0625/180041_9e6f9e94_722346.png "屏幕截图.png")
+![输入图片说明](https://gitee.com/uploads/images/2018/0625/180142_9d532164_722346.png "屏幕截图.png")
+![输入图片说明](https://gitee.com/uploads/images/2018/0625/180200_dbf7acc0_722346.png "屏幕截图.png")
+![输入图片说明](https://gitee.com/uploads/images/2018/0625/180211_5f083ad3_722346.png "屏幕截图.png")
+![输入图片说明](https://gitee.com/uploads/images/2018/0625/180225_d10ef43c_722346.png "屏幕截图.png")
+![输入图片说明](https://gitee.com/uploads/images/2018/0625/180245_43ab47ac_722346.png "屏幕截图.png")
+![输入图片说明](https://gitee.com/uploads/images/2018/0625/180303_d4c12327_722346.png "屏幕截图.png")
+![输入图片说明](https://gitee.com/uploads/images/2018/0625/180325_864111d6_722346.png "屏幕截图.png")
+![输入图片说明](https://gitee.com/uploads/images/2018/0625/180336_1e47382b_722346.png "屏幕截图.png")
+![输入图片说明](https://gitee.com/uploads/images/2018/0625/180345_27618d71_722346.png "屏幕截图.png")
+![输入图片说明](https://gitee.com/uploads/images/2018/0625/180357_d2854e2d_722346.png "屏幕截图.png")
+![输入图片说明](https://gitee.com/uploads/images/2018/0625/180421_0f99d77b_722346.png "屏幕截图.png")
+![输入图片说明](https://gitee.com/uploads/images/2018/0625/180436_1b204438_722346.png "屏幕截图.png")
+![输入图片说明](https://gitee.com/uploads/images/2018/0625/180453_2dd32aba_722346.png "屏幕截图.png")
