@@ -1,23 +1,23 @@
-# jfinal-cms-shop
+﻿# jfinal-cms-shop
 
 #### 项目介绍
 基于jfinal+element ui+vue的开源商城管理系统
 
 #### 软件架构
 软件架构说明
-
+后台采用java语言，jfinal开源框架 数据库 采用 mysql 5.7
 
 #### 安装教程
 
-1. xxxx
-2. xxxx
-3. xxxx
+1. 导入数据库脚本到mysql
+2. 更改项目数据库连接  用户名和密码
+3. 运行项目后台，直接用IntelliJ IDEA打开jfinal-cms.iml,启动项目
+4. 用vue构建工具启动vue-admin-web
+5. 修改vue-admin-web\config\index.js的/api和uploadPath路径
 
 #### 使用说明
 
-1. xxxx
-2. xxxx
-3. xxxx
+1. 数据库及图片存储路径设置文件：a_little_config.txt  
 
 #### 参与贡献
 
@@ -27,11 +27,23 @@
 4. 新建 Pull Request
 
 
-#### 码云特技
+#### 项目介绍
 
-1. 使用 Readme\_XXX.md 来支持不同的语言，例如 Readme\_en.md, Readme\_zh.md
-2. 码云官方博客 [blog.gitee.com](https://blog.gitee.com)
-3. 你可以 [https://gitee.com/explore](https://gitee.com/explore) 这个地址来了解码云上的优秀开源项目
-4. [GVP](https://gitee.com/gvp) 全称是码云最有价值开源项目，是码云综合评定出的优秀开源项目
-5. 码云官方提供的使用手册 [http://git.mydoc.io/](http://git.mydoc.io/)
-6. 码云封面人物是一档用来展示码云会员风采的栏目 [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+功能列表
+1. 商品管理：
+商品列表
+订单管理
+商品类目
+商品规格
+2. 文章管理：
+美妆推荐
+今日快报
+3. 推广管理：
+广告管理
+促销
+4. 素材管理
+5. 用户管理
+6. 管理员
+7. 栏目管理
+项目展示
+
