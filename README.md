@@ -1,4 +1,4 @@
-﻿# jfinal-cms-shop
+# jfinal-cms-shop
 
 #### 项目介绍
 基于jfinal+element ui+vue的开源商城管理系统
@@ -46,4 +46,14 @@
 6. 管理员
 7. 栏目管理
 项目展示
+
+
+
+
+
+
+
+
+
+
 
