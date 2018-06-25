@@ -1,0 +1,84 @@
+
+.header{
+    background-color: #242f42;
+}
+.login-wrap{
+    background: #324157;
+}
+.plugins-tips{
+    background: #eef1f6;
+}
+.plugins-tips a{
+    color: #009688;
+}
+.el-upload--text em {
+    color: #009688;
+}
+.pure-button{
+    background: #009688;
+}
+.tags-li.active {
+    border: 1px solid #009688;
+    background-color: #009688;
+}
+.message-title{
+    color: #009688;
+}
+.collapse-btn:hover{
+    background: rgb(40,52,70);
+}
+.el-button--primary{
+    background-color: #009688;
+    border-color: #009688;
+}
+.el-button--primary{
+    background-color: #009688;
+    border-color: #009688;
+}
+
+.el-button--primary:hover,.el-button--primary:focus,.el-button--primary:active{
+    background-color: #1AA094;
+    border-color: #1AA094;
+}
+.el-button--text{
+    color: #009688;
+}
+.el-button--text:focus, .el-button--text:hover{
+    color: #1AA094;
+}
+.el-tabs__item:hover{
+    color: #1AA094;
+}
+.el-tabs__item.is-active{
+    color: #009688;
+}
+.el-tabs__active-bar{
+    background-color: #009688;
+}
+.el-input.is-focus .el-input__inner,.el-select .el-input.is-focus .el-input__inner{
+    color:#009688;
+}
+ .el-input__inner:focus,.el-select .el-input__inner:focus,.el-select .el-input.is-focus .el-input__inner{
+    border-color:#1AA094;
+}
+.el-select-dropdown__item.selected{
+    color:#009688;
+}
+.el-radio__input.is-checked+.el-radio__label{
+    color:#009688;
+}
+.el-radio__input.is-checked .el-radio__inner {
+    border-color: #009688;
+    background: #009688;
+}
+.el-checkbox__inner{
+    border-color: #009688;
+}
+
+.el-checkbox__input.is-checked .el-checkbox__inner, .el-checkbox__input.is-indeterminate .el-checkbox__inner{
+    border-color: #009688;
+    background: #009688;
+}
+a{
+    color:#009688 ;
+}

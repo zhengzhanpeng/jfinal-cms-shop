@@ -1,0 +1,55 @@
+[{
+    "children": [{
+        "icon": "fa fa-file-image-o",
+        "href": "/yinmixcx/article/route?lanmuId=73",
+        "title": "轮播图"
+    }, {
+        "icon": "fa fa-server",
+        "href": "/yinmixcx/article/route?lanmuId=74",
+        "title": "我们的服务"
+    }],
+    "icon": "fa fa-file-word-o",
+    "href": "",
+    "title": "业务范围栏目",
+    "spread": true
+}, {
+    "children": [{
+        "icon": "",
+        "href": "/yinmixcx/article/route?lanmuId=76",
+        "title": "关于我们"
+    }, {
+        "icon": "",
+        "href": "/yinmixcx/article/route?lanmuId=77",
+        "title": "企业文化"
+    }, {
+        "icon": "",
+        "href": "/yinmixcx/article/route?lanmuId=78",
+        "title": "我们的团队"
+    }],
+    "icon": "fa fa-ticket",
+    "href": "",
+    "title": "关于我们栏目",
+    "spread": false
+}, {
+    "children": [{
+        "icon": "",
+        "href": "/yinmixcx/article/route?lanmuId=80",
+        "title": "联系我们"
+    }],
+    "icon": "fa fa-university",
+    "href": "",
+    "title": "联系我们栏目",
+    "spread": false
+}, {
+    "children": [],
+    "icon": " fa fa-user",
+    "href": "/yinmixcx/user?lanmuId=25",
+    "title": "用户管理",
+    "spread": false
+}, {
+    "children": [],
+    "icon": " fa fa-bars",
+    "href": "/yinmixcx/lanmu?lanmuId=26",
+    "title": "栏目管理",
+    "spread": false
+}]

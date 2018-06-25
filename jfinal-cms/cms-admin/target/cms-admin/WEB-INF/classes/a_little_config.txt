@@ -1,0 +1,5 @@
+jdbcUrl = jdbc:mysql://121.42.239.58/jfinal_cms?characterEncoding=utf8&zeroDateTimeBehavior=convertToNull
+user = root
+password =gz3738358261
+devMode = true
+FILE_UPLOAD_PATH =D:\\project\\devople\\upload

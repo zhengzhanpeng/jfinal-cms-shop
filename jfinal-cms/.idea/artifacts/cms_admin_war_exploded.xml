@@ -1,0 +1,58 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="cms-admin:war exploded">
+    <output-path>$PROJECT_DIR$/cms-admin/target/cms-admin</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="cms-admin" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="archive" name="cms-util-1.0-SNAPSHOT.jar">
+            <element id="module-output" name="cms-util" />
+          </element>
+          <element id="library" level="project" name="Maven: com.google.code.gson:gson:2.8.5" />
+          <element id="library" level="project" name="Maven: com.alibaba:fastjson:1.2.47" />
+          <element id="library" level="project" name="Maven: com.aliyun.oss:aliyun-sdk-oss:3.1.0" />
+          <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpclient:4.4.1" />
+          <element id="library" level="project" name="Maven: org.apache.httpcomponents:httpcore:4.4.1" />
+          <element id="library" level="project" name="Maven: commons-logging:commons-logging:1.2" />
+          <element id="library" level="project" name="Maven: commons-codec:commons-codec:1.9" />
+          <element id="library" level="project" name="Maven: org.jdom:jdom:1.1" />
+          <element id="library" level="project" name="Maven: com.sun.jersey:jersey-json:1.9" />
+          <element id="library" level="project" name="Maven: org.codehaus.jettison:jettison:1.1" />
+          <element id="library" level="project" name="Maven: stax:stax-api:1.0.1" />
+          <element id="library" level="project" name="Maven: com.sun.xml.bind:jaxb-impl:2.2.3-1" />
+          <element id="library" level="project" name="Maven: javax.xml.bind:jaxb-api:2.2.2" />
+          <element id="library" level="project" name="Maven: javax.xml.stream:stax-api:1.0-2" />
+          <element id="library" level="project" name="Maven: javax.activation:activation:1.1" />
+          <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-core-asl:1.8.3" />
+          <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-mapper-asl:1.8.3" />
+          <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-jaxrs:1.8.3" />
+          <element id="library" level="project" name="Maven: org.codehaus.jackson:jackson-xc:1.8.3" />
+          <element id="library" level="project" name="Maven: com.sun.jersey:jersey-core:1.9" />
+          <element id="library" level="project" name="Maven: com.aliyun:aliyun-java-sdk-core:3.4.0" />
+          <element id="library" level="project" name="Maven: org.json:json:20170516" />
+          <element id="library" level="project" name="Maven: com.aliyun:aliyun-java-sdk-ram:3.0.0" />
+          <element id="library" level="project" name="Maven: com.aliyun:aliyun-java-sdk-sts:3.0.0" />
+          <element id="library" level="project" name="Maven: com.aliyun:aliyun-java-sdk-ecs:4.2.0" />
+          <element id="archive" name="cms-service-1.0-SNAPSHOT.jar">
+            <element id="module-output" name="cms-service" />
+          </element>
+          <element id="archive" name="cms-model-1.0-SNAPSHOT.jar">
+            <element id="module-output" name="cms-model" />
+          </element>
+          <element id="library" level="project" name="Maven: com.jfinal:jfinal:3.4" />
+          <element id="library" level="project" name="Maven: cglib:cglib-nodep:3.2.5" />
+          <element id="library" level="project" name="Maven: log4j:log4j:1.2.16" />
+          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:5.1.44" />
+          <element id="library" level="project" name="Maven: com.alibaba:druid:1.0.29" />
+          <element id="library" level="project" name="Maven: com.jfinal:cos:2017.5" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/cms-admin/target/cms-admin/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="cms-admin/web/Web" />
+    </root>
+  </artifact>
+</component>

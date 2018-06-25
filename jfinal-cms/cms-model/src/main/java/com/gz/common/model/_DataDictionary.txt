@@ -1,0 +1,288 @@
+Table: tb_ad
+-----------+--------------+------+-----+---------+---------
+ Field     | Type         | Null | Key | Default | Remarks 
+-----------+--------------+------+-----+---------+---------
+ id        | INT(10)      | NO   | PRI |         |         
+ productId | INT(10)      | YES  |     |         |         
+ thumbnail | VARCHAR(255) | NO   |     |         |         
+ status    | SMALLINT(5)  | NO   |     | 0       |         
+ sort_num  | INT(10)      | NO   |     | 1       |         
+ name      | VARCHAR(255) | NO   |     |         |         
+-----------+--------------+------+-----+---------+---------
+
+Table: tb_attachment
+-----------+--------------+------+-----+---------+---------
+ Field     | Type         | Null | Key | Default | Remarks 
+-----------+--------------+------+-----+---------+---------
+ id        | INT(10)      | NO   | PRI |         | ID主键    
+ name      | TEXT(65535)  | YES  |     |         | 文件名     
+ user_id   | INT(10)      | YES  |     |         | 上传附件的用户ID
+ url       | VARCHAR(512) | NO   |     |         | 路径      
+ mime_type | VARCHAR(128) | YES  |     |         | mime    
+ suffix    | VARCHAR(32)  | YES  |     |         | 附件的后缀   
+ created   | DATETIME(19) | YES  |     |         | 上传时间    
+ size      | BIGINT(19)   | YES  |     |         | 文件大小    
+-----------+--------------+------+-----+---------+---------
+
+Table: tb_attribute
+-------+-------------+------+-----+---------+---------
+ Field | Type        | Null | Key | Default | Remarks 
+-------+-------------+------+-----+---------+---------
+ id    | INT(10)     | NO   | PRI |         |         
+ name  | VARCHAR(20) | NO   |     |         | 参数名称，如颜色、型号
+-------+-------------+------+-----+---------+---------
+
+Table: tb_attribute_value
+-------------+-------------+------+-----+---------+---------
+ Field       | Type        | Null | Key | Default | Remarks 
+-------------+-------------+------+-----+---------+---------
+ id          | INT(10)     | NO   | PRI |         |         
+ attributeId | INT(10)     | NO   |     |         |         
+ value       | VARCHAR(30) | NO   |     |         | 规格值     
+-------------+-------------+------+-----+---------+---------
+
+Table: tb_category
+-----------+--------------+------+-----+---------+---------
+ Field     | Type         | Null | Key | Default | Remarks 
+-----------+--------------+------+-----+---------+---------
+ id        | INT(10)      | NO   | PRI |         |         
+ name      | VARCHAR(10)  | NO   |     |         | 类目名称    
+ sort_num  | INT(10)      | NO   |     | 1       |         
+ icon      | VARCHAR(255) | YES  |     |         |         
+ uplevelId | INT(10)      | NO   |     |         | 上级类目ID  
+ level     | SMALLINT(5)  | NO   |     | 1       | 1一级类目，2二级类目
+-----------+--------------+------+-----+---------+---------
+
+Table: tb_content
+--------------+---------------+------+-----+---------+---------
+ Field        | Type          | Null | Key | Default | Remarks 
+--------------+---------------+------+-----+---------+---------
+ id           | INT(10)       | NO   | PRI |         |         
+ title        | VARCHAR(200)  | YES  |     |         |         
+ author       | VARCHAR(200)  | YES  |     |         | 作者      
+ description  | VARCHAR(1000) | YES  |     |         | 描述      
+ column4      | VARCHAR(255)  | YES  |     |         |         
+ column2      | VARCHAR(255)  | YES  |     |         |         
+ column3      | VARCHAR(255)  | YES  |     |         |         
+ column1      | VARCHAR(255)  | YES  |     |         |         
+ content      | TEXT(65535)   | YES  |     |         |         
+ out_link     | VARCHAR(200)  | YES  |     |         | 外链      
+ picture      | VARCHAR(200)  | YES  |     |         | 内页图     
+ updatetime   | DATETIME(19)  | NO   |     |         | 修改时间    
+ createtime   | DATETIME(19)  | NO   |     |         | 创建时间    
+ clickcount   | INT(10)       | NO   |     | 0       | 阅读量     
+ commentcount | INT(10)       | NO   |     | 0       | 评论数     
+ thumbnail    | VARCHAR(200)  | YES  |     |         | 缩略图     
+ lanmu_id     | INT(10)       | NO   |     |         | 栏目外键    
+ sort_num     | INT(10)       | NO   |     | 1       | 排序字段    
+ status       | SMALLINT(5)   | NO   |     | 0       | 状态      
+ gzDelete     | SMALLINT(5)   | NO   |     | 0       | 是否删除    
+ check_state  | SMALLINT(5)   | NO   |     | 0       | 0审核通过   
+--------------+---------------+------+-----+---------+---------
+
+Table: tb_content_attachment
+--------------+---------+------+-----+---------+---------
+ Field        | Type    | Null | Key | Default | Remarks 
+--------------+---------+------+-----+---------+---------
+ id           | INT(10) | NO   | PRI |         |         
+ attachmentId | INT(10) | NO   |     |         |         
+ contentId    | INT(10) | NO   |     |         |         
+ sort_num     | INT(10) | NO   |     | 1       |         
+--------------+---------+------+-----+---------+---------
+
+Table: tb_coupon
+-----------------+-------------+------+-----+---------+---------
+ Field           | Type        | Null | Key | Default | Remarks 
+-----------------+-------------+------+-----+---------+---------
+ id              | INT(10)     | NO   | PRI |         |         
+ money           | INT(10)     | NO   |     |         |         
+ leastSpendMoney | INT(10)     | NO   |     |         |         
+ status          | BIT(1)      | NO   |     | b'0'    | 0未使用1已使用
+ period          | INT(10)     | NO   |     |         | 有效期     
+ promotionId     | INT(10)     | YES  |     |         |         
+ name            | VARCHAR(14) | NO   |     |         | 优惠券名称   
+-----------------+-------------+------+-----+---------+---------
+
+Table: tb_field
+--------------+-------------+------+-----+---------+---------
+ Field        | Type        | Null | Key | Default | Remarks 
+--------------+-------------+------+-----+---------+---------
+ id           | INT(10)     | NO   | PRI |         |         
+ field_zh     | VARCHAR(20) | NO   |     |         | 字段中文名   
+ field_en     | VARCHAR(20) | NO   |     |         | 字段英文名   
+ field_type   | VARCHAR(20) | NO   |     |         | 字段类型    
+ filed_length | SMALLINT(5) | NO   |     | 50      | 字段长度    
+ is_editor    | SMALLINT(5) | NO   |     | 0       | 是否可修改   
+ lanmu_id     | INT(10)     | NO   |     |         | 栏目id    
+ lanmu_option | SMALLINT(5) | NO   |     | 1       | 0禁用1选题2必填
+ field_show   | SMALLINT(5) | NO   |     | 1       | 是否可见0不可见1可见
+ sort_num     | INT(10)     | NO   |     | 0       | 排序字段    
+--------------+-------------+------+-----+---------+---------
+
+Table: tb_lanmu
+-------------+--------------+------+-----+---------+---------
+ Field       | Type         | Null | Key | Default | Remarks 
+-------------+--------------+------+-----+---------+---------
+ id          | INT(10)      | NO   | PRI |         |         
+ name        | VARCHAR(200) | NO   |     |         | 栏目名     
+ level       | INT(10)      | NO   |     | 0       | 0为栏目标题1为子栏目
+ up_levelId  | INT(10)      | NO   |     | 0       | 上级Id    
+ route       | VARCHAR(255) | NO   |     |         | 路由      
+ sort_num    | INT(10)      | NO   |     | 10      | 排序字段    
+ is_single   | SMALLINT(5)  | NO   |     | 0       | 是否为单网页0否1是2空白
+ is_systerm  | SMALLINT(5)  | NO   |     | 0       | 是否为系通默认记录，0否1是
+ data_count  | INT(10)      | NO   |     | 0       |         
+ font_icon   | VARCHAR(50)  | YES  |     |         | 图标      
+ lanmu_type  | SMALLINT(5)  | NO   |     | 0       | 0栏目组1子栏目
+ description | VARCHAR(500) | YES  |     |         |         
+-------------+--------------+------+-----+---------+---------
+
+Table: tb_product
+-------------------+---------------+------+-----+---------+---------
+ Field             | Type          | Null | Key | Default | Remarks 
+-------------------+---------------+------+-----+---------+---------
+ id                | INT(10)       | NO   | PRI |         |         
+ createDate        | DATETIME(19)  | NO   |     |         |         
+ modifyDate        | DATETIME(19)  | NO   |     |         |         
+ name              | VARCHAR(255)  | NO   |     |         |         
+ caption           | VARCHAR(255)  | YES  |     |         |         
+ thumbnail         | VARCHAR(255)  | YES  |     |         | 缩略图     
+ introduction      | TEXT(65535)   | YES  |     |         |         
+ productCategoryId | INT(10)       | NO   |     |         |         
+ sn                | VARCHAR(255)  | NO   |     |         | 商品编号    
+ sales             | INT(10)       | NO   |     | 0       | 销量      
+ isMarketable      | BIT(1)        | YES  |     | b'1'    | 是否上架    
+ price             | FLOAT(21,2)   | NO   |     |         | 现价      
+ marketPrice       | FLOAT(21,2)   | YES  |     | 0.00    | 原价、市场价  
+ stock             | INT(10)       | NO   |     | 0       | 库存      
+ parameterValue    | VARCHAR(1000) | YES  |     | []      | json字符串，其他属性
+ sort_num          | INT(10)       | NO   |     | 1       |         
+ isRecommend       | SMALLINT(5)   | NO   |     | 0       | 1推荐     
+-------------------+---------------+------+-----+---------+---------
+
+Table: tb_product_attachment
+--------------+---------+------+-----+---------+---------
+ Field        | Type    | Null | Key | Default | Remarks 
+--------------+---------+------+-----+---------+---------
+ id           | INT(10) | NO   | PRI |         |         
+ attachmentId | INT(10) | NO   |     |         |         
+ productId    | INT(10) | NO   |     |         |         
+ sort_num     | INT(10) | NO   |     | 1       |         
+--------------+---------+------+-----+---------+---------
+
+Table: tb_product_attribute
+------------------+--------------+------+-----+---------+---------
+ Field            | Type         | Null | Key | Default | Remarks 
+------------------+--------------+------+-----+---------+---------
+ id               | INT(10)      | NO   | PRI |         |         
+ productId        | INT(10)      | NO   |     |         |         
+ attributeValueId | INT(10)      | NO   |     |         |         
+ price            | INT(10)      | NO   |     | 0       |         
+ thumbnail        | VARCHAR(255) | YES  |     |         |         
+------------------+--------------+------+-----+---------+---------
+
+Table: tb_product_attribute_value
+-----------------+--------------+------+-----+---------+---------
+ Field           | Type         | Null | Key | Default | Remarks 
+-----------------+--------------+------+-----+---------+---------
+ id              | INT(10)      | NO   | PRI |         |         
+ productId       | INT(10)      | NO   |     |         |         
+ attributeValues | VARCHAR(500) | NO   |     |         | 规格值组    
+ stock           | INT(10)      | NO   |     | 0       | 库存      
+ price           | FLOAT(10,2)  | NO   |     | 0.00    | 价格      
+ thumbnail       | VARCHAR(255) | YES  |     |         | 规格图片    
+ SKU             | VARCHAR(50)  | NO   |     |         | SKU编码   
+-----------------+--------------+------+-----+---------+---------
+
+Table: tb_product_promotion
+-------------+-----------+------+-----+---------+---------
+ Field       | Type      | Null | Key | Default | Remarks 
+-------------+-----------+------+-----+---------+---------
+ id          | INT(10)   | NO   | PRI |         |         
+ productId   | INT(10)   | NO   |     |         |         
+ promotionId | INT(10)   | NO   |     |         |         
+ discount    | FLOAT(12) | YES  |     |         |         
+ reduceMoney | FLOAT(12) | YES  |     |         |         
+ lastPrice   | FLOAT(12) | YES  |     |         |         
+-------------+-----------+------+-----+---------+---------
+
+Table: tb_promotion
+----------------+--------------+------+-----+---------+---------
+ Field          | Type         | Null | Key | Default | Remarks 
+----------------+--------------+------+-----+---------+---------
+ id             | INT(10)      | NO   | PRI |         |         
+ name           | VARCHAR(64)  | NO   |     |         |         
+ tag            | VARCHAR(255) | NO   |     |         | 活动标签    
+ startDate      | DATETIME(19) | NO   |     |         |         
+ endDate        | DATETIME(19) | NO   |     |         |         
+ active         | BIT(1)       | YES  |     |         |         
+ creatDate      | DATETIME(19) | YES  |     |         |         
+ type           | SMALLINT(5)  | NO   |     |         | 优惠类型：0满减优惠，1打折促销
+ reduceMoney    | FLOAT(8,2)   | YES  |     |         |         
+ lastSpendMoney | FLOAT(8,2)   | YES  |     |         |         
+----------------+--------------+------+-----+---------+---------
+
+Table: tb_role
+-------+--------------+------+-----+---------+---------
+ Field | Type         | Null | Key | Default | Remarks 
+-------+--------------+------+-----+---------+---------
+ id    | INT(10)      | NO   | PRI |         |         
+ role  | VARCHAR(50)  | YES  |     |         | 角色 英文   
+ name  | VARCHAR(255) | YES  |     |         | 角色名称    
+-------+--------------+------+-----+---------+---------
+
+Table: tb_role_lanmu
+----------+---------+------+-----+---------+---------
+ Field    | Type    | Null | Key | Default | Remarks 
+----------+---------+------+-----+---------+---------
+ id       | INT(10) | NO   | PRI |         |         
+ lanmu_id | INT(10) | NO   |     |         |         
+ role_id  | INT(10) | NO   |     |         |         
+----------+---------+------+-----+---------+---------
+
+Table: tb_user
+----------------+------------------------+------+-----+---------+---------
+ Field          | Type                   | Null | Key | Default | Remarks 
+----------------+------------------------+------+-----+---------+---------
+ id             | INT(10)                | NO   | PRI |         | 主键ID    
+ username       | VARCHAR(128)           | YES  |     |         | 登陆名     
+ nickname       | VARCHAR(128)           | YES  |     |         | 昵称      
+ realname       | VARCHAR(128)           | YES  |     |         | 实名      
+ password       | VARCHAR(128)           | YES  |     |         | 密码      
+ salt           | VARCHAR(32)            | YES  |     |         | 盐       
+ email          | VARCHAR(64)            | YES  |     |         | 邮件      
+ email_status   | VARCHAR(32)            | YES  |     |         | 邮箱状态（是否认证等）
+ mobile         | VARCHAR(32)            | YES  |     |         | 手机电话    
+ mobile_status  | VARCHAR(32)            | YES  |     |         | 手机状态（是否认证等）
+ telephone      | VARCHAR(32)            | YES  |     |         | 固定电话    
+ amount         | DECIMAL UNSIGNED(10,2) | YES  |     | 0.00    | 金额（余额）  
+ gender         | VARCHAR(16)            | YES  |     |         | 性别      
+ role_id        | INT(10)                | YES  |     |         | 权限      
+ signature      | VARCHAR(2048)          | YES  |     |         | 签名      
+ content_count  | INT UNSIGNED(10)       | YES  |     | 0       | 内容数量    
+ comment_count  | INT UNSIGNED(10)       | YES  |     | 0       | 评论数量    
+ qq             | VARCHAR(16)            | YES  |     |         | QQ号码    
+ wechat         | VARCHAR(32)            | YES  |     |         | 微信号     
+ weibo          | VARCHAR(256)           | YES  |     |         | 微博      
+ facebook       | VARCHAR(256)           | YES  |     |         |         
+ linkedin       | VARCHAR(256)           | YES  |     |         |         
+ birthday       | DATETIME(19)           | YES  |     |         | 生日      
+ company        | VARCHAR(256)           | YES  |     |         | 公司      
+ occupation     | VARCHAR(256)           | YES  |     |         | 职位、职业   
+ address        | VARCHAR(256)           | YES  |     |         | 地址      
+ zipcode        | VARCHAR(128)           | YES  |     |         | 邮政编码    
+ site           | VARCHAR(256)           | YES  |     |         | 个人网址    
+ graduateschool | VARCHAR(256)           | YES  |     |         | 毕业学校    
+ education      | VARCHAR(256)           | YES  |     |         | 学历      
+ avatar         | VARCHAR(256)           | YES  |     |         | 头像      
+ idcardtype     | VARCHAR(128)           | YES  |     |         | 证件类型：身份证 护照 军官证等
+ idcard         | VARCHAR(128)           | YES  |     |         | 证件号码    
+ status         | INT(10)                | YES  |     | 0       | 状态0正常1拉黑
+ created        | DATETIME(19)           | YES  |     |         | 创建日期    
+ create_source  | VARCHAR(128)           | YES  |     |         | 用户来源（可能来之oauth第三方）
+ logged         | DATETIME(19)           | YES  |     |         | 最后的登陆时间 
+ activated      | DATETIME(19)           | YES  |     |         | 激活时间    
+ token          | VARCHAR(255)           | YES  |     |         |         
+ openId         | VARCHAR(100)           | YES  |     |         | 微信公众平台openId
+----------------+------------------------+------+-----+---------+---------
+
