@@ -63,7 +63,6 @@
 ![输入图片说明](https://gitee.com/uploads/images/2018/0625/180453_2dd32aba_722346.png "屏幕截图.png")
 
  **小程序端** 
-![输入图片说明](https://gitee.com/uploads/images/2018/0626/161309_02ddd21a_722346.jpeg "微信图片_20180621211446.jpg")
 ![输入图片说明](https://gitee.com/uploads/images/2018/0626/161510_b580d819_722346.jpeg "微信图片_20180625181100.jpg")
 ![输入图片说明](https://gitee.com/uploads/images/2018/0626/161613_35250b7d_722346.png "屏幕截图.png")
 ![输入图片说明](https://gitee.com/uploads/images/2018/0626/161639_adf4dbb6_722346.png "屏幕截图.png")
