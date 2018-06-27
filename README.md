@@ -11,7 +11,7 @@
 
 1. 导入数据库脚本到mysql
 2. 更改项目数据库连接  用户名和密码
-3. 运行项目后台，直接用IntelliJ IDEA打开jfinal-cms.iml,或者用eclipse打开pox.xml,启动项目
+3. 运行项目后台，直接用IntelliJ IDEA打开jfinal-cms.iml,或者用eclipse打开,启动项目。eclipse打开教程（https://blog.csdn.net/LeiMengHongChen1/article/details/80830344）
 4. 用vue构建工具启动vue-admin-web
 5. 修改vue-admin-web\config\index.js的/api和uploadPath路径
 
