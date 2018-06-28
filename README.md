@@ -2,6 +2,8 @@
 
 #### 项目介绍
 基于jfinal+element ui+vue的开源商城管理系统
+演示地址：http://121.42.239.58
+部署的时候，有些问题还没解决，上传路径错误，先看着，等我改了
 
 #### 软件架构
 软件架构说明
@@ -69,3 +71,4 @@
 ![输入图片说明](https://gitee.com/uploads/images/2018/0627/173550_aed64b9c_722346.png "屏幕截图.png")
 ![输入图片说明](https://gitee.com/uploads/images/2018/0627/173416_dd9736c7_722346.png "屏幕截图.png")
 ![输入图片说明](https://gitee.com/uploads/images/2018/0627/173515_3d0da25d_722346.png "屏幕截图.png")
+![输入图片说明](https://gitee.com/uploads/images/2018/0628/221714_ae90b806_722346.png "屏幕截图.png")
