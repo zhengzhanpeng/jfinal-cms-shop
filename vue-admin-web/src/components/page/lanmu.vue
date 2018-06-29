@@ -34,8 +34,10 @@
                 </el-table-column>
                 <el-table-column prop="is_single" label="内容类型">
                     <template slot-scope="scope">
-                        {{scope.row.is_single==0?'专题内容':scope.row.is_single==1?'单网页':'空白'}}
+                        {{scope.row.is_single==0?'专题内容':scope.row.is_single==1?'单网页':'自定义字段'}}
                     </template>
+                </el-table-column>
+                <el-table-column prop="route" label="路由">
                 </el-table-column>
                 <el-table-column prop="font_icon" label="图标">
                     <template slot-scope="scope">
@@ -72,7 +74,7 @@
                 this.$router.push({path:'/lanmuEdit?up_levelId=0',title:"添加栏目"});
             },
             getData() {
-                this.$axios.get('api/admin/getAllLanmu',
+                this.$axios.get(this.HOST+'/getAllLanmu',
                     {
                         params:{page: 1}
                     }
@@ -87,8 +89,9 @@
                 this.$router.push('/contentEdit?lanmuId='+row.id);
             },
             handleDelete(index, row) {
-
-                this.$axios.get('api/admin/delLanmu',
+                this.$message.success('删除成功，测试');
+                this.tableData.splice(index, 1);
+                /*this.$axios.get(this.HOST+'/delLanmu',
                     {
                         params:{lanmuId: row.id}
                     }
@@ -99,13 +102,13 @@
                     }else{
                         this.$message.error(res.data.msg);
                     }
-                })
+                })*/
 
             },
             handleSort(index){
                 this.$axios({
                     method:"post",
-                    url: this.HOST+"/admin/saveLanmu",
+                    url: this.HOST+"/saveLanmu",
                     data: this.tableData[index]
                 }).then((res)=>{
                     if(res.data.code==0) {

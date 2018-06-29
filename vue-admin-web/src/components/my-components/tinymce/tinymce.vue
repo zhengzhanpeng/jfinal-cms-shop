@@ -73,7 +73,7 @@
                 language:"zh_CN",
                 init_instance_callback:function(editor) {
                     EDITOR = editor;
-                    console.log("Editor: " + editor.id + " is now initialized.");
+                   /* console.log("Editor: " + editor.id + " is now initialized.");*/
                     editor.on('input change undo redo', () => {
                         var content = editor.getContent()
                         _this.$emit('input', content);
@@ -90,6 +90,9 @@
                 setting.toolbar1='bold italic underline strikethrough | fontsizeselect | forecolor backcolor | alignleft aligncenter alignright alignjustify | bullist numlist | outdent indent blockquote | undo redo | link unlink image code | removeformat preview',
                 setting.imagetools_toolbar='paste rotateleft rotateright | flipv fliph | editimage imageoptions',
                 setting.images_upload_credentials=true,
+                setting.cleanup=false,
+                setting.allow_html_in_named_anchor=false,
+                setting.element_format="html",
                 setting.images_upload_handler=function (blobInfo, success, failure) {
                     if (blobInfo.blob().size > self.maxSize) {
                         failure('文件体积过大')
@@ -103,7 +106,7 @@
                         _this.$axios({
                             method: 'POST',
                             // 这里是你的上传地址
-                            url: "api/admin/file/upload",
+                            url: "uploadPath",
                             data: formData,
                         })
                             .then((res) => {

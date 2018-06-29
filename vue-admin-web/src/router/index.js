@@ -52,6 +52,71 @@ export default new Router({
                     props: (route) => ({ query: route.query })
                 },
                 {
+                    path: '/goodslist',
+                    component: resolve => require(['../components/page/goods/goodslist.vue'], resolve),
+                    meta: { title: '商品列表' },
+                    props: (route) => ({ query: route.query })
+                },
+                {
+                    path: '/goodsEdit',
+                    component: resolve => require(['../components/page/goods/goodsEdit.vue'], resolve),
+                    meta: { title: '添加商品' },
+                    props: (route) => ({ query: route.query })
+                },
+                {
+                    path: '/category',
+                    component: resolve => require(['../components/page/goods/category.vue'], resolve),
+                    meta: { title: '商品类目' },
+                    props: (route) => ({ query: route.query })
+                },
+                {
+                    path: '/attribute',
+                    component: resolve => require(['../components/page/goods/attribute.vue'], resolve),
+                    meta: { title: '商品规格' },
+                    props: (route) => ({ query: route.query })
+                },
+                {
+                    path: '/adminUser',
+                    component: resolve => require(['../components/page/user/adminUser.vue'], resolve),
+                    meta: { title: '管理员' },
+                    props: (route) => ({ query: route.query })
+                },
+                {
+                    path: '/user',
+                    component: resolve => require(['../components/page/user/user.vue'], resolve),
+                    meta: { title: '会员管理' },
+                    props: (route) => ({ query: route.query })
+                },
+                {
+                    path: '/address',
+                    component: resolve => require(['../components/page/user/address.vue'], resolve),
+                    meta: { title: '会员管理' },
+                    props: (route) => ({ query: route.query })
+                },
+                {
+                    path: '/promotion',
+                    component: resolve => require(['../components/page/spread/promotion.vue'], resolve),
+                    meta: { title: '促销活动' },
+                    props: (route) => ({ query: route.query })
+                },{
+                    path: '/editPromotion',
+                    component: resolve => require(['../components/page/spread/promotionEdit.vue'], resolve),
+                    meta: { title: '限时折扣' },
+                    props: (route) => ({ query: route.query })
+                },
+                {
+                    path: '/ad',
+                    component: resolve => require(['../components/page/spread/ad.vue'], resolve),
+                    meta: { title: '广告' },
+                    props: (route) => ({ query: route.query })
+                },
+                {
+                    path: '/attachment',
+                    component: resolve => require(['../components/page/Attachment.vue'], resolve),
+                    meta: { title: '限时折扣' },
+                    props: (route) => ({ query: route.query })
+                },
+                {
                     path: '/table',
                     component: resolve => require(['../components/page/BaseTable.vue'], resolve),
                     meta: { title: '基础表格' }

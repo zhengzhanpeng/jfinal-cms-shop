@@ -57,7 +57,7 @@
                 </Blockquote>
             </div>
             <div class="container">
-                <el-table :data="contentList" row-key="" Checkbox border style="width: 100%" fit ref="multipleTable" @selection-change="handleSelectionChange"  :default-sort="{prop:'sort_num'}">
+                <el-table :data="contentList" row-key="" Checkbox border style="width: 100%" fit ref="multipleTable" @selection-change="handleSelectionChange"  :default-sort="{prop:'sort_num',order:'descending'}">
                     <el-table-column
                         type="selection"
                         width="55">
@@ -71,7 +71,7 @@
                         <template v-if="item.field_show==1&&item.field_en=='thumbnail'">
                             <el-table-column :prop="item.field_en"  :label="item.field_zh" width="100">
                                 <template slot-scope="scope">
-                                    <a :href="scope.row.thumbnail" target="_blank"><img class="thumbnail" :src="scope.row.thumbnail"></a>
+                                    <a :href="scope.row.thumbnail" target="_blank"><img class="thumbnail" :src="scope.row.thumbnail_temp"></a>
                                 </template>
                             </el-table-column>
                         </template>
@@ -122,7 +122,7 @@
                 this.$router.push({path:'/contentEdit?lanmuId='+this.lanmu.id+'&title=添加内容'});
             },
             getData() {
-                this.$axios.get('api/admin/getContent',
+                this.$axios.get(this.HOST+'/getContent',
                     {
                         params:{"page": 1,"lanmuId":this.lanmu.id}
                     }
@@ -138,7 +138,7 @@
             getField(){
                 if(this.lanmu.id!=null){
                     this.$axios.get(
-                        this.HOST+"/admin/getField",
+                        this.HOST+"/getField",
                         {params:{lanmuId:this.lanmu.id}},
                     ).then((res) => {
                         this.fields=res.data.data
@@ -164,13 +164,23 @@
                 this.delContent();
             },
             delContent(){
-                this.$axios.get('api/admin/delContent',
+                this.$axios.get(this.HOST+'/delContent',
                     {
                         params:{id:this.selectedId}
                     }
                 ).then((res) => {
                     if(res.data.code==0) {
                         this.$message.success('删除成功');
+                        let contentList=this.contentList
+                        let selectedId=this.selectedId
+                        for(let i in selectedId){
+                            for(let o in contentList){
+                                if(contentList[o].id==selectedId[i]){
+                                    contentList.splice(o,1);
+                                    break;
+                                }
+                            }
+                        }
                     }else{
                         this.$message.error(res.data.msg);
                     }
@@ -185,7 +195,7 @@
                 }
                 this.$axios({
                     method:"post",
-                    url: this.HOST+"/admin/sortContent",
+                    url: this.HOST+"/sortContent",
                     data: row
                 }).then((res)=>{
                     if(res.data.code==0) {

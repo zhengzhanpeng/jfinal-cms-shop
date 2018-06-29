@@ -71,7 +71,7 @@ By default, no external URLs are allowed.
 
 On Android, this equates to sending an intent of type BROWSEABLE.
 
-This whitelist does not apply to plugins, only hyperlinks and calls to `window.open()`.
+This whitelist does not apply to plugins.js, only hyperlinks and calls to `window.open()`.
 
 In `config.xml`, add `<allow-intent>` tags, like this:
 
@@ -150,7 +150,7 @@ Here are some example CSP declarations for your `.html` pages:
     <!-- Allow everything but only from the same origin and foo.com -->
     <meta http-equiv="Content-Security-Policy" content="default-src 'self' foo.com">
 
-    <!-- This policy allows everything (eg CSS, AJAX, object, frame, media, etc) except that 
+    <!-- This policy allows everything (eg CSS, AJAX, object, frame, media, etc) except that
         * CSS only from the same origin and inline styles,
         * scripts only from the same origin and inline styles, and eval()
     -->

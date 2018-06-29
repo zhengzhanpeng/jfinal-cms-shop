@@ -23,7 +23,7 @@ public class FileUtil  {
 	/**
 	 * 多文件上传重命名后的文件名
 	 */
-	public static String savepath = PropKit.get("FILE_UPLOAD_PATH") + "\\upload\\";
+	public static String savepath = PropKit.get("FILE_UPLOAD_PATH") + "/upload/";
 
 	public static Map<String, Object> upload(UploadFile file) {
 		String path = new SimpleDateFormat("yyyy/MM/dd").format(new Date());

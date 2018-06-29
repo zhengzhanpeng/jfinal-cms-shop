@@ -1,6 +1,7 @@
 package com.gz.common;
 
 import com.alibaba.fastjson.JSONArray;
+import com.alibaba.fastjson.JSONObject;
 import com.gz.common.model.*;
 import com.gz.utils.JSONUtil;
 import com.gz.utils.StringUtil;
@@ -8,7 +9,10 @@ import com.jfinal.kit.StrKit;
 import com.jfinal.plugin.activerecord.Db;
 import com.jfinal.plugin.activerecord.Page;
 
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by gongzhen on 2018/6/2.
@@ -171,5 +175,32 @@ public class ProductService {
         return adList;
     }
 
-
+public Map<String, Object>  getSpecification(int productId){
+    List<Attribute> attributeList= ProductService.getService().getAttribute();
+    List<ProductAttributeValue> productAttributeValueList= getProductAttributeValuesBySKU(productId);
+    List<Attribute> checkedAttributes=new ArrayList<>();
+    for(Attribute attribute:attributeList){
+        List<AttributeValue> attributeValueList=attribute.get("attributeValues");
+        boolean flag=false;
+        for(AttributeValue attributeValue:attributeValueList) {
+            for (ProductAttributeValue productAttributeValue : productAttributeValueList) {
+                JSONArray jsonArray = productAttributeValue.get("attributeValues");
+                for(int i=0;i<jsonArray.size();i++){
+                    JSONObject jsonObject= (JSONObject)jsonArray.get(i);
+                    if(jsonObject.getIntValue("id")==attributeValue.getId().intValue()){
+                        attributeValue.put("checked",true);
+                        flag=true;
+                    }
+                }
+            }
+        }
+        if(flag){
+            checkedAttributes.add(attribute);
+        }
+    }
+    Map<String,Object> map=new HashMap<>();
+    map.put("checkedAttributes",checkedAttributes);
+    map.put("specifications",productAttributeValueList);
+    return map;
+}
 }

@@ -57,8 +57,8 @@ axios.interceptors.request.use(
     error => {
         return Promise.reject(error)
     });
-
 Vue.prototype.HOST="/api"
+Vue.prototype.UPLAODPATH="/uploadPath"
 new Vue({
     router,
     render: h => h(App)

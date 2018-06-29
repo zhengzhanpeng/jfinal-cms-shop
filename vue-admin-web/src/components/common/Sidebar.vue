@@ -35,7 +35,7 @@
         },
         methods:{
           getMenu(){
-              this.$axios.get('api/admin/getMenu',
+              this.$axios.get(this.HOST+'/getMenu',
                   {
                       params:{page: 1}
                   }

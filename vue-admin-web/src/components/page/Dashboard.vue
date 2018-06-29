@@ -9,7 +9,7 @@
                                 <img src="static/img/img.jpg" class="user-avator" alt="">
                                 <div class="user-info-cont">
                                     <div class="user-info-name">{{user.nickname}}</div>
-                                    <div>{{user.role.name}}</div>
+                                    <div>超级管理员</div>
                                 </div>
                             </div>
                             <div class="user-info-list">上次登录时间：<span>2018-01-01</span></div>
@@ -102,7 +102,7 @@
         name: 'dashboard',
         data() {
             return {
-                name: localStorage.getItem('ms_username'),
+                user:{},
                 todoList: [
                     {
                         title: '今天要修复100个bug',
@@ -131,9 +131,7 @@
             }
         },
         computed: {
-            role() {
-                return this.name === 'admin' ? '超级管理员' : '普通用户';
-            }
+
         },
         created:function(){
             this.user=JSON.parse(localStorage.getItem('user'));

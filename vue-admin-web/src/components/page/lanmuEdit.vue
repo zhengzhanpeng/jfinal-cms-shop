@@ -23,7 +23,7 @@
                         <el-select v-model="lanmu.is_single" placeholder="请选择内容类型">
                             <el-option v-if="lanmu.lanmu_type==1" label="专题内容" value="0"></el-option>
                             <el-option v-if="lanmu.lanmu_type==1" label="单网页" value="1"></el-option>
-                            <el-option label="空白" value="2"></el-option>
+                            <el-option label="自定义字段" value="2"></el-option>
                         </el-select>
                     </el-form-item>
                     <el-form-item label="栏目简介">
@@ -139,7 +139,7 @@
                 lanmu.up_levelId=this.$route.query.up_levelId;
                 if(this.lanmu.id!=null){
                     this.$axios.get(
-                        this.HOST+"/admin/getLanmu",
+                        this.HOST+"/getLanmu",
                         {params:{lanmuId:lanmu.id}},
                     ).then((res) => {
                         lanmu =res.data.data;
@@ -158,7 +158,7 @@
                     if (valid) {
                         this.$axios({
                             method:"post",
-                            url: this.HOST+"/admin/saveLanmu",
+                            url: this.HOST+"/saveLanmu",
                             headers:{
                                 'Content-type': 'application/x-www-form-urlencoded'
                             },
@@ -186,7 +186,7 @@
             getField(){
                 if(this.lanmu.id!=null){
                     this.$axios.get(
-                        this.HOST+"/admin/getField",
+                        this.HOST+"/getField",
                         {params:{lanmuId:this.lanmu.id}},
                     ).then((res) => {
                         this.fields=res.data.data
@@ -203,7 +203,7 @@
                         this.dialogFieldVisible=false;
                         this.$axios({
                             method:"post",
-                            url: this.HOST+"/admin/updateField",
+                            url: this.HOST+"/updateField",
                             data: this.field
                         }).then((res)=>{
                             if(res.data.code==0) {
@@ -221,7 +221,7 @@
             handleSort(index,row){
                 this.$axios({
                     method:"post",
-                    url: this.HOST+"/admin/updateField",
+                    url: this.HOST+"/updateField",
                     data: row
                 }).then((res)=>{
                     if(res.data.code==0) {

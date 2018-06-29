@@ -8,10 +8,11 @@
                                       ]:[]">
                         <el-upload
                             class="avatar-uploader"
-                            action="api/admin/file/upload"
+                            action="uploadPath"
+                            accept="image/*"
                             :show-file-list="false"
                             :on-success="handleThumbnailSuccess">
-                            <img v-if="content.thumbnail_temp" :src="content.thumbnail" class="avatar">
+                            <img v-if="content.thumbnail" :src="content.thumbnail_temp" class="avatar">
                             <i v-else class="el-icon-plus avatar-uploader-icon"></i>
                         </el-upload>
                     </el-form-item>
@@ -21,10 +22,11 @@
                                       { required: true, message: '内容不能为空', trigger: 'blur' }
                                       ]:[]">
                         <el-upload
-                            action="api/admin/file/upload"
+                            action="uploadPath"
                             list-type="picture-card"
                             :on-success="handlePictureSuccess"
                             :on-remove="handlePictureRemove"
+                            accept="image/*"
                             :file-list="content.pictures"
                         >
                             <i class="el-icon-plus"></i>
@@ -88,7 +90,7 @@
                 this.getField();
             },
             getData() {
-                this.$axios.get('api/admin/getOneContent',
+                this.$axios.get(this.HOST+'/getOneContent',
                     {
                         params:{"id": this.content.id,"lanmuId":this.lanmu.id}
                     }
@@ -101,7 +103,7 @@
             getField(){
                 if(this.lanmu.id!=null){
                     this.$axios.get(
-                        this.HOST+"/admin/getFieldsByLmIDEditor",
+                        this.HOST+"/getFieldsByLmIDEditor",
                         {params:{lanmuId:this.lanmu.id}},
                     ).then((res) => {
                         this.fields=res.data.data
@@ -119,7 +121,7 @@
                 console.log(file, fileList);
                 if(this.content.id!=null) {
                     this.$axios.get(
-                        this.HOST + "/admin/delAttachment",
+                        this.HOST + "/delAttachment",
                         {params: {contentId: this.content.id,attachmentId:file.id}},
                     ).then((res) => {
                         if(res.data.code==0) {
@@ -135,7 +137,7 @@
                     if (valid) {
                         this.$axios({
                             method:"post",
-                            url: this.HOST+"/admin/updateContent?lanmuId="+this.lanmu.id,
+                            url: this.HOST+"/updateContent?lanmuId="+this.lanmu.id,
                             data: this.content
                         }).then((res)=>{
                             if(res.data.code==0) {
@@ -180,32 +182,6 @@
 </script>
 
 <style>
-    .el-upload--text{
-        width: 150px;
-        height: 150px;
-    }
-    .avatar-uploader .el-upload {
-        border: 1px dashed #d9d9d9;
-        border-radius: 6px;
-        cursor: pointer;
-        position: relative;
-        overflow: hidden;
-    }
-    .avatar-uploader .el-upload:hover {
-        border-color: #009688;
-    }
-    .avatar-uploader-icon {
-        font-size: 28px;
-        color: #8c939d;
-        width: 150px;
-        height: 150px;
-        line-height: 150px;
-        text-align: center;
-    }
-    .avatar {
-        width: 158px;
-        height: 158px;
-        display: block;
-    }
+
 </style>
 

@@ -10,6 +10,10 @@
                         <router-view></router-view>
                     </keep-alive>
                 </transition>
+
+                <el-row type="flex" justify="center">
+
+                </el-row>
             </div>
         </div>
     </div>

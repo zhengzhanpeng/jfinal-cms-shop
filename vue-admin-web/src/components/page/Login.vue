@@ -12,7 +12,7 @@
                 <div class="login-btn">
                     <el-button type="primary" @click="submitForm('ruleForm')">登录</el-button>
                 </div>
-                <p style="font-size:12px;line-height:30px;color:#999;">Tips : 用户名和密码随便填。</p>
+                <p style="font-size:12px;line-height:30px;color:#999;">Tips : 用户名test和密码123456。</p>
             </el-form>
         </div>
     </div>
@@ -23,7 +23,7 @@
         data: function(){
             return {
                 ruleForm: {
-                    account: 'gongzhen',
+                    account: 'test',
                     password: '123456'
                 },
                 rules: {
@@ -42,7 +42,7 @@
                     if (valid) {
                         this.$axios({
                             method:"post",
-                            url: this.HOST+"/admin/login",
+                            url: this.HOST+"/login",
                             data: this.ruleForm
                         }).then((res)=>{
                             if(res.data.code==0) {

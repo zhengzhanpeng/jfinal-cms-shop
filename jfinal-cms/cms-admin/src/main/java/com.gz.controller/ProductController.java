@@ -170,32 +170,8 @@ public class ProductController extends Controller{
      */
     public void getSpecification(){
         int productId=getParaToInt("productId",0);
-        List<Attribute> attributeList= ProductService.getService().getAttribute();
-        List<ProductAttributeValue> productAttributeValueList= ProductService.getService().getProductAttributeValuesBySKU(productId);
-        List<Attribute> checkedAttributes=new ArrayList<>();
-        for(Attribute attribute:attributeList){
-            List<AttributeValue> attributeValueList=attribute.get("attributeValues");
-            boolean flag=false;
-            for(AttributeValue attributeValue:attributeValueList) {
-                for (ProductAttributeValue productAttributeValue : productAttributeValueList) {
-                    JSONArray jsonArray = productAttributeValue.get("attributeValues");
-                    for(int i=0;i<jsonArray.size();i++){
-                        JSONObject jsonObject= (JSONObject)jsonArray.get(i);
-                        if(jsonObject.getIntValue("id")==attributeValue.getId().intValue()){
-                            attributeValue.put("checked",true);
-                            flag=true;
-                        }
-                    }
-                }
-            }
-            if(flag){
-                checkedAttributes.add(attribute);
-            }
-        }
-        Map<String,Object> map=new HashMap<>();
-        map.put("checkedAttributes",checkedAttributes);
-        map.put("specifications",productAttributeValueList);
-        renderJson(Response.responseJson(0,"成功",map));
+        Map<String,Object> result=  ProductService.getService().getSpecification(productId);
+        renderJson(Response.responseJson(0,"成功",result));
     }
 
     public void getPromotionList(){
