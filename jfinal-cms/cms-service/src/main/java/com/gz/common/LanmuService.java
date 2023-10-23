@@ -4,8 +4,8 @@ import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.JSONArray;
 import com.alibaba.fastjson.JSONObject;
 import com.gz.common.model.Lanmu;
-import com.jfinal.json.Json;
-import com.sun.org.apache.bcel.internal.generic.LNEG;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -15,23 +15,17 @@ import java.util.Map;
 /**
  * Created by gongzhen on 2017/7/12.
  */
+@Service
 public class LanmuService {
-    private static LanmuService lanmuService;
 
-    private LanmuService() {
-    }
+    @Autowired
+    private LanmuRepository lanmuRepository;
 
-    public static LanmuService getService() {
-        if (lanmuService == null) {
-            lanmuService = new LanmuService();
-        }
-        return lanmuService;
-    }
     public List<Lanmu> getAllLanmuList(){
-        return Lanmu.dao.find("SELECT * FROM tb_lanmu WHERE is_systerm!=1 order by sort_num asc");
+        return lanmuRepository.findByIsSystermNotOrderBySortNumAsc(1);
     }
     public List<Lanmu> getLanmuList(int roleId){
-        return Lanmu.dao.find("SELECT * FROM tb_lanmu where id in(SELECT lanmu_id from tb_role_lanmu where role_id=?) order by sort_num asc",roleId);
+        return lanmuRepository.findByRoleIdOrderBySortNumAsc(roleId);
     }
     public  List<Map<String,Object> >  getLanmuMenus(int roleId){
         List<Lanmu> lList= Lanmu.dao.find("SELECT * FROM tb_lanmu where id in(SELECT lanmu_id from tb_role_lanmu where role_id=?) order by sort_num asc",roleId);
@@ -63,12 +57,12 @@ public class LanmuService {
         return lanmus;
     };
     public List<Lanmu> getLowLanmus(int lanmuid,int roleId){
-        List<Lanmu> lanmu_groups=Lanmu.dao.find("select * from tb_lanmu where id in (SELECT lanmu_id from tb_role_lanmu where  role_id=?) and  is_systerm!=1 and up_levelId=? order by sort_num desc,id asc",roleId,lanmuid);
+        List<Lanmu> lanmu_groups=lanmuRepository.findByRoleIdAndIsSystermNotAndUpLevelIdOrderBySortNumDescIdAsc(roleId, 1, lanmuid);
         return lanmu_groups;
     }
     public List<Map<String, Object>> getMenu(int roleId){
         List<Map<String,Object>> menus=new ArrayList<>();
-        List<Lanmu> lanmu_groups=Lanmu.dao.find("SELECT * FROM tb_lanmu where id in (SELECT lanmu_id from tb_role_lanmu where up_levelId=0 and role_id=?) order by sort_num desc,id asc",roleId);
+        List<Lanmu> lanmu_groups=lanmuRepository.findByRoleIdAndUpLevelIdOrderBySortNumDescIdAsc(roleId, 0);
         for(Lanmu lanmu1:lanmu_groups){
             Map<String,Object> temp1=new HashMap<>();
             temp1.put("title",lanmu1.getName());
@@ -95,6 +89,6 @@ public class LanmuService {
     }
 
     public Lanmu getLanmu(Integer lanmuId) {
-        return Lanmu.dao.findById(lanmuId);
+        return lanmuRepository.findById(lanmuId).orElse(null);
     }
 }
