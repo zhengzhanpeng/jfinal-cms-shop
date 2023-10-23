@@ -10,28 +10,28 @@ export class GoodsEditComponent implements OnInit {
   categories: Category[] = [];
   attributes: Attribute[] = [];
 
-  constructor() {}
+  constructor(){}
 
-  ngOnInit() :void {
-    this.productService.getProduct(this.productId).subscribe(product => this.product = product);
-    this.categoryService.getCategories().subscribe(categories => this.categories = categories);
-    this.attributeService.getAttributes().subscribe(attributes => this.attributes = attributes);
+  ngOnInit(): void {
+    this.productService.getProduct(this.productId).subscribe(product=>this.product = product);
+    this.categoryService.getCategories().subscribe(categories=>this.categories = categories);
+    this.attributeService.getAttributes().subscribe(attributes=>this.attributes = attributes);
   }
 
-  saveProduct() :void {
-    this.productService.saveProduct(this.product).subscribe(() => this.goBack());
+  saveProduct(): void {
+    this.productService.saveProduct(this.product).subscribe(()=>this.goBack());
   }
   
-  goBack() :void {
+  goBack(): void {
     this.location.back();
   }
 
-  get productPrice() :number {
+  get productPrice(): number {
     return this.product.price * (1 - this.product.discount);
   }
   
-  get productAttributes() :Attribute[] {
-    return this.attributes.filter(attribute => attribute.productId === this.product.id);
+  get productAttributes(): Attribute[] {
+    return this.attributes.filter(attribute=>attribute.productId === this.product.id);
   }
 }
 ```
