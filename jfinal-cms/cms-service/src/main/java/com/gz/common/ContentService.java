@@ -1,38 +1,33 @@
 package com.gz.common;
 
 import com.gz.common.model.Content;
-import com.jfinal.plugin.activerecord.Page;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
 
 import java.util.List;
 
-/**
- * Created by gongzhen on 2016/12/5.
- */
+@Service
 public class ContentService {
-    private static ContentService service;
 
-    private ContentService() {
-    }
+    @Autowired
+    private ContentRepository contentRepository;
 
-    public static ContentService getService() {
-        if (service == null) {
-            service = new ContentService();
-        }
-        return service;
+    public Page<Content> getPages(int pageNum, int pageSize, int lanmuId){
+        return contentRepository.findByLanmuIdAndGzDeleteFalse(PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.DESC, "sortNum", "id")), lanmuId);
     }
-   public Page<Content> getPages(int pageNum, int pageSize, int lanmuId){
-           return Content.dao.paginate(pageNum, pageSize, "select *", " from tb_content where  lanmu_id=? and gzDelete =0 order by sort_num desc,id desc", lanmuId);
-   }
     public Page<Content> getPages(int pageNum, int pageSize, String where){
-        return Content.dao.paginate(pageNum, pageSize, "select *", " from tb_content where  "+where+" gzDelete =0 order by sort_num desc,id desc");
+        return contentRepository.findByWhereAndGzDeleteFalse(where, PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.DESC, "sortNum", "id")));
     }
     public Content getOneContent(int lanmuId){
-        return Content.dao.findFirst("select * from tb_content where  lanmu_id=?", lanmuId);
+        return contentRepository.findFirstByLanmuId(lanmuId);
     }
     public Content getContent(int id){
-        return Content.dao.findFirst("select * from tb_content where  id=?", id);
+        return contentRepository.findById(id).orElse(null);
     }
     public List<Content> getContentList(int lanmuId){
-        return Content.dao.find("select * from tb_content where  lanmu_id=? order by sort_num desc,id desc", lanmuId);
+        return contentRepository.findByLanmuIdOrderBySortNumDescIdDesc(lanmuId);
     }
 }
