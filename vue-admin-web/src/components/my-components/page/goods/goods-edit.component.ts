@@ -5,6 +5,7 @@ import { Component, OnInit } from '@angular/core';
   templateUrl: './goods-edit.component.html',
   styleUrls: ['./goods-edit.component.css']
 })
+
 export class GoodsEditComponent implements OnInit {
   product: Product = new Product();
   categories: Category[] = [];
