@@ -4,9 +4,11 @@ package com.gz.common;
 import com.gz.common.model.Attachment;
 import com.gz.common.model.ContentAttachment;
 import com.gz.utils.FileUtil;
+import java.io.File;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.multipart.MultipartFile;
 @Service
 public class AttachmentService {
 import java.util.Date;
@@ -56,13 +58,13 @@ public class AttachmentService {
      * @param file
      * @return UploadFile file
      */
-    public Attachment getAttachmentByFile(UploadFile file){
+    public Attachment getAttachmentByFile(MultipartFile file){
         Attachment attachment=new Attachment();
         attachment.setCreated(new Date());
-        attachment.setSuffix(FileUtil.getFileExtension(file.getFileName()));
+        attachment.setSuffix(FileUtil.getFileExtension(file.getOriginalFilename()));
         attachment.setMimeType(file.getContentType());
-        attachment.setName(FileUtil.getSuffixName(file.getFileName()));
-        attachment.setSize(file.getFile().getTotalSpace());
+        attachment.setName(FileUtil.getSuffixName(file.getOriginalFilename()));
+        attachment.setSize(file.getSize());
         return attachment;
     }
     public List<Attachment> getList(int contentId){
