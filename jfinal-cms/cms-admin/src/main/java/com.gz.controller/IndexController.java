@@ -4,7 +4,8 @@ import com.gz.common.*;
 import com.gz.common.model.*;
 import com.gz.utils.Response;
 import com.gz.utils.StringUtil;
-import com.jfinal.core.Controller;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 
 import java.util.Date;
 import java.util.HashMap;
@@ -14,17 +15,14 @@ import java.util.Map;
 /**
  * Created by gongzhen on 2018/6/2.
  */
-public class IndexController extends Controller{
-    public void login(){
-        String account=getPara("account");
-        String password=getPara("password");
+@RestController
+public class IndexController {
+    public ResponseEntity<Map<String, Object>> login(@RequestParam String account, @RequestParam String password){
         if(StringUtil.isEmpty(account)){
-            renderJson(Response.responseJson(1,"请输入用户名"));
-            return;
+            return new ResponseEntity<>(Response.responseJson(1,"请输入用户名"), HttpStatus.BAD_REQUEST);
         }
         if(StringUtil.isEmpty(password)){
-            renderJson(Response.responseJson(1,"请输入密码"));
-            return;
+            return new ResponseEntity<>(Response.responseJson(1,"请输入密码"), HttpStatus.BAD_REQUEST);
         }
 
         User user=UserService.getService().getUserByAccount(account);
@@ -57,12 +55,10 @@ public class IndexController extends Controller{
         System.out.println(lanmu.getName());
         System.out.println(lanmu.getId());
         if(!checkRepeat("name",lanmu.getName(),lanmu.getId()!=null?lanmu.getId():0)){
-            renderJson(Response.responseJson(1,"栏目名已存在",lanmu));
-            return;
-        }/*else if(!checkRepeat("route",lanmu.getRoute(),lanmu.getId()!=null?lanmu.getId():0)){
+			         return new ResponseEntity<>(Response.responseJson(1,"栏目名已存在",lanmu), HttpStatus.BAD_REQUEST);
+			     }/*else if(!checkRepeat("route",lanmu.getRoute(),lanmu.getId()!=null?lanmu.getId():0)){
 			data.put("msg","路由重复");
-			renderJson(data);
-			return;
+			return new ResponseEntity<>(data, HttpStatus.BAD_REQUEST);
 		}*/
         if(lanmu.getId()==null){
             Lanmu upLamu =Lanmu.dao.findById(lanmu.getUpLevelid());
@@ -99,9 +95,9 @@ public class IndexController extends Controller{
             FieldService.getService().delFieldsByLmId(lanmu.getId());
         }
         if(flag==true) {
-            renderJson(Response.responseJson(0,"保存成功",lanmu));
+            return new ResponseEntity<>(Response.responseJson(0,"保存成功",lanmu), HttpStatus.OK);
         }else{
-            renderJson(Response.responseJson(1,"保存失败"));
+            return new ResponseEntity<>(Response.responseJson(1,"保存失败"), HttpStatus.BAD_REQUEST);
         }
 
     }
@@ -119,7 +115,7 @@ public class IndexController extends Controller{
         Field field=getModel(Field.class,"");
         field.update();
         data.put("code",0);
-        renderJson(data);
+        return new ResponseEntity<>(data, HttpStatus.OK);
     }
     public void delLanmu(){
         Map<String,Object> data=new HashMap<>();
@@ -131,7 +127,7 @@ public class IndexController extends Controller{
         }else{
             data.put("msg","参数不能为空");
         }
-        renderJson(data);
+        return new ResponseEntity<>(data, HttpStatus.OK);
     }
     public void lanmuSort(){
         Map<String,Object> data=new HashMap<>();
@@ -148,7 +144,7 @@ public class IndexController extends Controller{
             }
             data.put("code",0);
         }
-        renderJson(data);
+        return new ResponseEntity<>(data, HttpStatus.OK);
     }
     public void fieldSort(){
         Map<String,Object> data=new HashMap<>();
@@ -171,7 +167,7 @@ public class IndexController extends Controller{
      * 所有字段
      */
     public void getField(){
-        renderJson(Response.responseJson(0,"请求成功",FieldService.getService().getFieldsByLmID(getParaToInt("lanmuId",-1))));
+        return new ResponseEntity<>(Response.responseJson(0,"请求成功",FieldService.getService().getFieldsByLmID(lanmuId)), HttpStatus.OK);
     }
 
     /**
@@ -211,7 +207,7 @@ public class IndexController extends Controller{
             data.put("contents",contents);
         }
         data.put("lanmu",lanmu);
-        renderJson(Response.responseJson(0,"请求成功",data));
+        return new ResponseEntity<>(Response.responseJson(0,"请求成功",data), HttpStatus.OK);
     }
     public void getOneContent(){
         int lanmuId=getParaToInt("lanmuId",0);
@@ -239,7 +235,7 @@ public class IndexController extends Controller{
         int lanmuId=getParaToInt("lanmuId",0);
         Lanmu lanmu= LanmuService.getService().getLanmu(lanmuId);
         if(lanmuId==0){
-            renderJson(data);
+            return new ResponseEntity<>(data, HttpStatus.OK);
             return;
         }
         Content content=getBean(Content.class,"",false);
@@ -279,7 +275,7 @@ public class IndexController extends Controller{
         }else{
             content.setSortNum(sort_num);
             content.update();
-            renderJson(Response.responseJson(0,"排序成功"));
+            return new ResponseEntity<>(Response.responseJson(0,"排序成功"), HttpStatus.OK);
         }
     }
     public void delContent(){
@@ -288,9 +284,9 @@ public class IndexController extends Controller{
             for(int id:ids) {
                 Content.dao.deleteById(id);
             }
-            renderJson(Response.responseJson(0,"删除成功"));
+            return new ResponseEntity<>(Response.responseJson(0,"删除成功"), HttpStatus.OK);
         }else{
-            renderJson(Response.responseJson(1,"所选记录为空"));
+            return new ResponseEntity<>(Response.responseJson(1,"所选记录为空"), HttpStatus.BAD_REQUEST);
         }
     }
     public void delAttachment(){
@@ -299,9 +295,9 @@ public class IndexController extends Controller{
         ContentAttachment contentAttachment=AttachmentService.getService().getContentAttachment(contentId,attachmentId);
         if(contentAttachment!=null){
             contentAttachment.delete();
-            renderJson(Response.responseJson(0,"删除成功"));
+            return new ResponseEntity<>(Response.responseJson(0,"删除成功"), HttpStatus.OK);
         }else{
-            renderJson(Response.responseJson(1,"此文件不存在"));
+            return new ResponseEntity<>(Response.responseJson(1,"此文件不存在"), HttpStatus.BAD_REQUEST);
         }
     }
 }
