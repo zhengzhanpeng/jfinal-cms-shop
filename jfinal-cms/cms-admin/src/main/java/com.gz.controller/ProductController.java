@@ -12,7 +12,8 @@ import com.gz.common.model.*;
 import com.gz.utils.JSONUtil;
 import com.gz.utils.Response;
 import com.gz.utils.StringUtil;
-import com.jfinal.core.Controller;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 import com.jfinal.json.Json;
 import com.jfinal.plugin.activerecord.Page;
 
@@ -21,12 +22,11 @@ import java.util.*;
 /**
  * Created by gongzhen on 2018/6/9.
  */
-public class ProductController extends Controller{
-    public void getProductPage(){
-        int pageNum=getParaToInt("pageNum",1);
-        int pageSize=getParaToInt("pageSize",10);
+@RestController
+public class ProductController {
+    public ResponseEntity<Map<String, Object>> getProductPage(@RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "10") int pageSize){
         Page<Product> productPage= ProductService.getService().getProductPage(pageNum,pageSize,null);
-        renderJson(Response.responseJson(0,"成功",productPage));
+        return new ResponseEntity<>(Response.responseJson(0,"成功",productPage), HttpStatus.OK);
     }
     public void getProduct(){
         Product product=ProductService.getService().getProduct(getParaToInt("id",0));

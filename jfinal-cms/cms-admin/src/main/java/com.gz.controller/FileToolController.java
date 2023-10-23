@@ -5,7 +5,8 @@ import com.gz.common.Constant;
 import com.gz.common.model.Attachment;
 import com.gz.utils.FileUtil;
 import com.gz.utils.Response;
-import com.jfinal.core.Controller;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 import com.jfinal.kit.PathKit;
 import com.jfinal.plugin.activerecord.Page;
 import com.jfinal.upload.UploadFile;
@@ -16,11 +17,11 @@ import java.util.Map;
 /**
  * Created by gongzhen on 2018/6/6.
  */
-public class FileToolController extends Controller{
-    public void upload( ) {
-        UploadFile file=getFile("file", "\\temp");
-        if(file==null){
-            renderJson(Response.responseJson(1,"没有发现文件"));
+@RestController
+public class FileToolController {
+    public ResponseEntity<Map<String, Object>> upload(@RequestParam("file") MultipartFile file) {
+        if(file.isEmpty()){
+            return new ResponseEntity<>(Response.responseJson(1,"没有发现文件"), HttpStatus.BAD_REQUEST);
             return;
 
         }
@@ -31,18 +32,17 @@ public class FileToolController extends Controller{
             attachment.save();
             result.put("attachment",attachment);
             result.put("url", Constant.FILE_PATH+attachment.getUrl());
-            renderJson(result);
+            return new ResponseEntity<>(result, HttpStatus.OK);
         }else{
-            renderJson(result);
+            return new ResponseEntity<>(result, HttpStatus.BAD_REQUEST);
         }
     }
-    public void getAttachmentList(){
-        Page<Attachment> attachmentPage= AttachmentService.getService().getAttachmentPage(getParaToInt("pageNum",1),getParaToInt("pageSize",1));
-        renderJson(Response.responseJson(1,"请求成功",attachmentPage));
+    public ResponseEntity<Page<Attachment>> getAttachmentList(@RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "1") int pageSize){
+        Page<Attachment> attachmentPage= AttachmentService.getService().getAttachmentPage(pageNum, pageSize);
+        return new ResponseEntity<>(Response.responseJson(1,"请求成功",attachmentPage), HttpStatus.OK);
     }
-    public void delAttachment(){
-        int id=getParaToInt("id",0);
+    public ResponseEntity<Map<String, Object>> delAttachment(@RequestParam int id){
         Attachment.dao.deleteById(id);
-        renderJson(Response.responseJson(1,"删除成功"));
+        return new ResponseEntity<>(Response.responseJson(1,"删除成功"), HttpStatus.OK);
     }
 }
