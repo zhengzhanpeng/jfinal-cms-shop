@@ -67,59 +67,62 @@ export class HeaderComponent implements OnInit {
   message: number = 2;
   user: any = {};
 
-  constructor(private busService: BusService) { }
+  constructor(private busService: BusService){}
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
   }
 
-  handleCommand(command: string) {
-    if (command === 'loginout') {
-      localStorage.removeItem('ms_username');
-      this.router.navigate(['/login']);
-    }
+  handleCommand(command: string){
+  if (command === 'loginout') {
+    localStorage.removeItem('ms_username');
+    this.router.navigate(['/login']);
+  }
   }
 
-  handleSelect(index: string) {
-    console.log(index);
-    var items = [
-      {
-        icon: 'el-icon-setting',
-        index: 'dashboard',
-        title: '系统首页'
-      }
+  handleSelect(index: string){
+  console.log(index);
+  var items = [
+    {
+      icon: 'el-icon-setting',
+      index: 'dashboard',
+      title: '系统首页'
+    }
+  ];
+  this.busService.emit('menus', items);
+  }
     ];
     this.busService.emit('menus', items);
   }
 
-  collapseChange() {
-    this.collapse = !this.collapse;
-    this.busService.emit('collapse', this.collapse);
+  collapseChange(){
+  this.collapse = !this.collapse;
+  this.busService.emit('collapse', this.collapse);
   }
 
-  handleFullScreen() {
-    let element = document.documentElement;
-    if (this.fullscreen) {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      } else if (document.webkitCancelFullScreen) {
-        document.webkitCancelFullScreen();
-      } else if (document.mozCancelFullScreen) {
-        document.mozCancelFullScreen();
-      } else if (document.msExitFullscreen) {
-        document.msExitFullscreen();
-      }
-    } else {
-      if (element.requestFullscreen) {
-        element.requestFullscreen();
-      } else if (element.webkitRequestFullScreen) {
-        element.webkitRequestFullScreen();
-      } else if (element.mozRequestFullScreen) {
-        element.mozRequestFullScreen();
-      } else if (element.msRequestFullscreen) {
-        element.msRequestFullscreen();
-      }
+  handleFullScreen(){
+  let element = document.documentElement;
+  if (this.fullscreen) {
+    if (document.exitFullscreen) {
+      document.exitFullscreen();
+    } else if (document.webkitCancelFullScreen) {
+      document.webkitCancelFullScreen();
+    } else if (document.mozCancelFullScreen) {
+      document.mozCancelFullScreen();
+    } else if (document.msExitFullscreen) {
+      document.msExitFullscreen();
     }
-    this.fullscreen = !this.fullscreen;
+  } else {
+    if (element.requestFullscreen) {
+      element.requestFullscreen();
+    } else if (element.webkitRequestFullScreen) {
+      element.webkitRequestFullScreen();
+    } else if (element.mozRequestFullScreen) {
+      element.mozRequestFullScreen();
+    } else if (element.msRequestFullscreen) {
+      element.msRequestFullscreen();
+    }
+  }
+  this.fullscreen = !this.fullscreen;
   }
 }
