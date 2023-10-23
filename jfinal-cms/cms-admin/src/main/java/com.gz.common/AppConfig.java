@@ -5,9 +5,16 @@ import com.gz.controller.FileToolController;
 import com.gz.controller.IndexController;
 import com.gz.controller.ProductController;
 import com.gz.controller.UserController;
-import com.jfinal.config.*;
-import com.jfinal.core.JFinal;
-import com.jfinal.kit.PropKit;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Bean;
+import org.springframework.core.env.Environment;
+import org.springframework.web.servlet.config.annotation.InterceptorRegistry;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
+import org.springframework.boot.jdbc.DataSourceBuilder;
+import org.springframework.web.servlet.function.RouterFunction;
+import org.springframework.web.servlet.function.RouterFunctions;
+import org.springframework.web.servlet.function.ServerResponse;
+import javax.sql.DataSource;
 import com.jfinal.plugin.activerecord.ActiveRecordPlugin;
 import com.jfinal.plugin.druid.DruidPlugin;
 import com.jfinal.template.Engine;
@@ -21,7 +28,8 @@ import java.io.File;
  * 
  * API引导式配置
  */
-public class AppConfig extends JFinalConfig {
+@Configuration
+public class AppConfig {
 	
 	/**
 	 * 运行此 main 方法可以启动项目，此main方法可以放置在任意的Class类定义中，不一定要放于此
@@ -31,32 +39,46 @@ public class AppConfig extends JFinalConfig {
 	 * -XX:PermSize=64M -XX:MaxPermSize=256M
 	 */
 	public static void main(String[] args) {
-		/**
-		 * 特别注意：Eclipse 之下建议的启动方式
-		 */
-		JFinal.start("src/main/webapp", 80, "/", 5);
-		
-		/**
-		 * 特别注意：IDEA 之下建议的启动方式，仅比 eclipse 之下少了最后一个参数
-		 */
-		// JFinal.start("src/main/webapp", 80, "/");
+		SpringApplication.run(AppConfig.class, args);
 	}
 	
 	/**
 	 * 配置常量
 	 */
-	public void configConstant(Constants me) {
-		// 加载少量必要配置，随后可用PropKit.get(...)获取值
-		PropKit.use("a_little_config.txt");
-		me.setDevMode(PropKit.getBoolean("devMode", false));
-			me.setBaseUploadPath(PropKit.get("FILE_UPLOAD_PATH"));
-			me.setBaseDownloadPath(PropKit.get("FILE_UPLOAD_PATH"));
+	@Autowired
+	private Environment env;
+	
+	@Bean
+	public Constants configConstant() {
+	// Load necessary configurations
+	Constants constants = new Constants();
+	constants.setDevMode(Boolean.parseBoolean(env.getProperty("devMode")));
+	constants.setBaseUploadPath(env.getProperty("base.upload.path"));
+	constants.setBaseDownloadPath(env.getProperty("base.download.path"));
+		return constants;
 	}
 
 	/**
 	 * 配置路由
 	 */
-	public void configRoute(Routes me) {
+	@Bean
+	public RouterFunction<ServerResponse> indexRoute(IndexController indexController) {
+		return RouterFunctions.route(GET("/"), indexController::handle);
+	}
+	
+	@Bean
+	public RouterFunction<ServerResponse> fileRoute(FileToolController fileToolController) {
+		return RouterFunctions.route(GET("/file"), fileToolController::handle);
+	}
+	
+	@Bean
+	public RouterFunction<ServerResponse> productRoute(ProductController productController) {
+		return RouterFunctions.route(GET("/product"), productController::handle);
+	}
+	
+	@Bean
+	public RouterFunction<ServerResponse> userRoute(UserController userController) {
+		return RouterFunctions.route(GET("/user"), userController::handle);
 
 		me.add("/", IndexController.class);
 		me.add("/file", FileToolController.class);
@@ -71,16 +93,15 @@ public class AppConfig extends JFinalConfig {
 	/**
 	 * 配置插件
 	 */
-	public void configPlugin(Plugins me) {
-		// 配置 druid 数据库连接池插件
-		DruidPlugin druidPlugin = new DruidPlugin(PropKit.get("jdbcUrl"), PropKit.get("user"), PropKit.get("password").trim());
-		me.add(druidPlugin);
-		
-		// 配置ActiveRecord插件
-		ActiveRecordPlugin arp = new ActiveRecordPlugin(druidPlugin);
-		// 所有映射在 MappingKit 中自动化搞定
-		_MappingKit.mapping(arp);
-		me.add(arp);
+	@Bean
+	public DataSource dataSource() {
+	// Configure druid database connection pool plugin
+	return DataSourceBuilder.create()
+		.url(env.getProperty("spring.datasource.url"))
+		.username(env.getProperty("spring.datasource.username"))
+		.password(env.getProperty("spring.datasource.password"))
+		.driverClassName(env.getProperty("spring.datasource.driver-class-name"))
+		.build();
 	}
 	
 	public static DruidPlugin createDruidPlugin() {
@@ -90,14 +111,19 @@ public class AppConfig extends JFinalConfig {
 	/**
 	 * 配置全局拦截器
 	 */
-	public void configInterceptor(Interceptors me) {
-		
+	@Bean
+	public InterceptorRegistry configInterceptor() {
+		InterceptorRegistry registry = new InterceptorRegistry();
+	// Add necessary interceptors
+	InterceptorRegistry registry = new InterceptorRegistry();
+	registry.addInterceptor(new SomeInterceptor());
+	return registry;
 	}
 	
-	/**
-	 * 配置处理器
-	 */
-	public void configHandler(Handlers me) {
-		me.add(new ResourceHandler());
+	@Bean
+	public ResourceHandlerRegistry configHandler() {
+		ResourceHandlerRegistry registry = new ResourceHandlerRegistry();
+		registry.addResourceHandler("/**").addResourceLocations("/");
+		return registry;
 	}
 }
