@@ -88,11 +88,8 @@ export class HeaderComponent implements OnInit {
       index: 'dashboard',
       title: '系统首页'
     }
-  ];
+  ]
   this.busService.emit('menus', items);
-  }
-    ];
-    this.busService.emit('menus', items);
   }
 
   collapseChange(){
