@@ -1,13 +1,13 @@
 <div class="header">
-    <div class="collapse-btn" (click)="collapseChange()">
-        <i class="el-icon-menu"></i>
-    </div>
-    <div class="logo">后台管理系统</div>
-    <div class="menu-box">
-        <el-menu class="el-menu-demo"
-                 mode="horizontal"
-                 (select)="handleSelect($event)"
-                 backgroundColor="#242f42"
+  <div class="collapse-btn" (click)="collapseChange();">
+    <i class="el-icon-menu"></i>
+  </div>
+  <div class="logo">后台管理系统</div>
+  <div class="menu-box">
+    <el-menu class="el-menu-demo"
+      mode="horizontal"
+      (select)="handleSelect($event);"
+      backgroundColor="#242f42"
                  textColor="#fff"
                  activeTextColor="#1AA094">
             <el-submenu *ngFor="let item of items; let i = index" [index]="'menu_'+item.lanmuId">
@@ -59,7 +59,7 @@ import { BusService } from '../bus.service';
 @Component({
   selector: 'app-header',
   templateUrl: './header.component.html',
-  styleUrls: ['./header.component.css']
+  styleUrls: ['./header.component.css'],
 })
 export class HeaderComponent implements OnInit {
   collapse: boolean = false;
@@ -67,59 +67,59 @@ export class HeaderComponent implements OnInit {
   message: number = 2;
   user: any = {};
 
-  constructor(private busService: BusService){}
+  constructor(private busService: BusService) {}
 
   ngOnInit(): void {
     this.user = JSON.parse(localStorage.getItem('user'));
   }
 
-  handleCommand(command: string){
-  if (command === 'loginout') {
-    localStorage.removeItem('ms_username');
-    this.router.navigate(['/login']);
-  }
-  }
-
-  handleSelect(index: string){
-  console.log(index);
-  var items = [
-    {
-      icon: 'el-icon-setting',
-      index: 'dashboard',
-      title: '系统首页'
-    }
-  ]
-  this.busService.emit('menus', items);
-  }
-
-  collapseChange(){
-  this.collapse = !this.collapse;
-  this.busService.emit('collapse', this.collapse);
-  }
-
-  handleFullScreen(){
-  let element = document.documentElement;
-  if (this.fullscreen) {
-    if (document.exitFullscreen) {
-      document.exitFullscreen();
-    } else if (document.webkitCancelFullScreen) {
-      document.webkitCancelFullScreen();
-    } else if (document.mozCancelFullScreen) {
-      document.mozCancelFullScreen();
-    } else if (document.msExitFullscreen) {
-      document.msExitFullscreen();
-    }
-  } else {
-    if (element.requestFullscreen) {
-      element.requestFullscreen();
-    } else if (element.webkitRequestFullScreen) {
-      element.webkitRequestFullScreen();
-    } else if (element.mozRequestFullScreen) {
-      element.mozRequestFullScreen();
-    } else if (element.msRequestFullscreen) {
-      element.msRequestFullscreen();
+  handleCommand(command: string) {
+    if (command === 'loginout') {
+      localStorage.removeItem('ms_username');
+      this.router.navigate(['/login']);
     }
   }
-  this.fullscreen = !this.fullscreen;
+
+  handleSelect(index: string) {
+    console.log(index);
+    var items = [
+      {
+        icon: 'el-icon-setting',
+        index: 'dashboard',
+        title: '系统首页',
+      },
+    ];
+    this.busService.emit('menus', items);
+  }
+
+  collapseChange() {
+    this.collapse = !this.collapse;
+    this.busService.emit('collapse', this.collapse);
+  }
+
+  handleFullScreen() {
+    let element = document.documentElement;
+    if (this.fullscreen) {
+      if (document.exitFullscreen) {
+        document.exitFullscreen();
+      } else if (document.webkitCancelFullScreen) {
+        document.webkitCancelFullScreen();
+      } else if (document.mozCancelFullScreen) {
+        document.mozCancelFullScreen();
+      } else if (document.msExitFullscreen) {
+        document.msExitFullscreen();
+      }
+    } else {
+      if (element.requestFullscreen) {
+        element.requestFullscreen();
+      } else if (element.webkitRequestFullScreen) {
+        element.webkitRequestFullScreen();
+      } else if (element.mozRequestFullScreen) {
+        element.mozRequestFullScreen();
+      } else if (element.msRequestFullscreen) {
+        element.msRequestFullscreen();
+      }
+    }
+    this.fullscreen = !this.fullscreen;
   }
 }
