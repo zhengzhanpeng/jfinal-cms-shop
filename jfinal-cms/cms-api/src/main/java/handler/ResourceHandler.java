@@ -2,7 +2,7 @@ package handler;
 
 import com.gz.common.Constant;
 import com.gz.utils.FileUtil;
-import com.jfinal.handler.Handler;
+import org.springframework.web.servlet.HandlerInterceptor;
 import com.jfinal.kit.PropKit;
 import com.jfinal.render.Render;
 
@@ -18,9 +18,10 @@ import java.util.HashSet;
 /**
  * Created by gongzhen on 2018/6/19.
  */
-public class ResourceHandler extends Handler{
+public class ResourceHandler implements HandlerInterceptor {
     @Override
-    public void handle(String s, HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, boolean[] booleen) {
+    public boolean preHandle(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, Object handler) throws Exception {
+        String s = httpServletRequest.getRequestURI();
         HashSet<String> images=new HashSet<>();
         images.add("jpg");
         images.add("jpeg");
@@ -30,8 +31,8 @@ public class ResourceHandler extends Handler{
         if(images.contains(fileExtension)){
             System.out.println(Constant.HOST_PATH+s);
             FileUtil.download(httpServletResponse, PropKit.get("FILE_UPLOAD_PATH")+s);
-            booleen[0]=true;
+            return false;
         }
-        next.handle(s,httpServletRequest,httpServletResponse,booleen);
+        return true;
     }
 }
