@@ -12,35 +12,30 @@ import java.util.Map;
 /**
  * Created by gongzhen on 2018/6/2.
  */
+@Service
 public class UserService {
-    private static UserService userService;
 
-    private UserService() {
-    }
-
-    public static UserService getService() {
-        if (userService == null) {
-            userService = new UserService();
-        }
-        return userService;
-    }
+    @Autowired
+    private UserRepository userRepository;
+    @Autowired
+    private RoleRepository roleRepository;
     public List<User> getList(){
-        return  User.dao.find("select * from tb_user where status!='administrator'");
+        return userRepository.findByStatusNot("administrator");
     }
     public Page<User> getPage(int pageNum, int pageSize,String role){
-        return User.dao.paginate(pageNum, pageSize, "select *", "from tb_user where role_id = (SELECT id from tb_role where role=?)",role);
+        return userRepository.findByRoleId(roleRepository.findByRole(role).getId(), PageRequest.of(pageNum, pageSize));
     }
     public User getUserByAccount(String account){
-        return User.dao.findFirst("select * from tb_user where username=? or mobile=? or email=?",account,account,account);
+        return userRepository.findByUsernameOrMobileOrEmail(account, account, account);
     }
     public User getUserByUserName(String account){
-        return User.dao.findFirst("select * from tb_user where username=? ",account);
+        return userRepository.findByUsername(account);
     }
     public User getUserByUserEmail(String account){
-        return User.dao.findFirst("select * from tb_user where email=? ",account);
+        return userRepository.findByEmail(account);
     }
     public User getUserByUserMobile(String account){
-        return User.dao.findFirst("select * from tb_user where mobile=? ",account);
+        return userRepository.findByMobile(account);
     }
     public Map<String,Object> updateUser(User user){
         Map<String,Object> data=new HashMap<>();
@@ -62,7 +57,7 @@ public class UserService {
                 data.put("msg","用户名已存在");
             }else if(StringUtil.isEmpty(user.getPassword())){
                 data.put("msg","用户名密码为空");
-            }else if(user.save()){
+            }else if(userRepository.save(user) != null){
                 data.put("code",0);
                 data.put("msg","用户信息创建成功");
             }else{
@@ -74,13 +69,12 @@ public class UserService {
         return data;
     }
     public User getUserByToken(String token){
-        return User.dao.findFirst("SELECT * FROM tb_user where `token` =?",token);
+        return userRepository.findByToken(token);
     };
     public Role getRole(int userId){
-        return Role.dao.findFirst("SELECT tb_role.* from tb_role right JOIN tb_user on tb_user.role_id=tb_role.id where tb_user.role_id=?",userId);
-
+        return roleRepository.findById(userRepository.findById(userId).getRoleId()).orElse(null);
     }
     public List<User> getListByRole(String role){
-        return User.dao.find("SELECT * from tb_role where role=?",role);
+        return userRepository.findByRoleId(roleRepository.findByRole(role).getId());
     }
 }
