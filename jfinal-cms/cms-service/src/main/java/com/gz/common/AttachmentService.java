@@ -60,10 +60,10 @@ public class AttachmentService {
     public Attachment getAttachmentByFile(MultipartFile file){
         Attachment attachment=new Attachment();
         attachment.setCreated(new Date());
-        attachment.setSuffix(FileUtil.getFileExtension(file.getName()));
+        attachment.setSuffix(FileUtil.getFileExtension(file.getOriginalFilename()));
         attachment.setMimeType(file.getContentType());
-        attachment.setName(FileUtil.getSuffixName(file.getName()));
-        attachment.setSize(file.length());
+        attachment.setName(FileUtil.getSuffixName(file.getOriginalFilename()));
+        attachment.setSize(file.getSize());
         return attachment;
     }
     public List<Attachment> getList(int contentId){
