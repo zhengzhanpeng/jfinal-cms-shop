@@ -9,6 +9,15 @@ import org.springframework.stereotype.Service;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.multipart.MultipartFile;
 @Service
+public Attachment getAttachmentByFile(MultipartFile file){
+    Attachment attachment=new Attachment();
+    attachment.setCreated(new Date());
+    attachment.setSuffix(FileUtil.getFileExtension(file.getOriginalFilename()));
+    attachment.setMimeType(file.getContentType());
+    attachment.setName(FileUtil.getSuffixName(file.getOriginalFilename()));
+    attachment.setSize(file.getSize());
+    return attachment;
+}
 public class AttachmentService {
 import java.util.Date;
 import java.util.List;
