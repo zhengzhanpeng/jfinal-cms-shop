@@ -76,7 +76,7 @@ public class AttachmentService {
         return attachment;
     }
     public List<Attachment> getList(int contentId){
-        return Attachment.dao.find("SELECT tb_attachment.* FROM tb_attachment RIGHT  JOIN tb_content_attachment on tb_content_attachment.attachmentId=tb_attachment.id  WHERE contentId=?",contentId);
+        return Attachment.dao.find("SELECT tb_attachment.* FROM tb_attachment RIGHT JOIN tb_content_attachment on tb_content_attachment.attachmentId=tb_attachment.id WHERE contentId=?",contentId);
     }
     public List<Attachment> getList(int contentId){
         return attachmentRepository.findByContentId(contentId);
