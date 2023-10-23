@@ -33,7 +33,6 @@ public class AttachmentService {
         attachment.setSuffix(suffix);
         import org.springframework.stereotype.Service;
         import org.springframework.beans.factory.annotation.Autowired;
-        
         @Service
         public class AttachmentService {
         
