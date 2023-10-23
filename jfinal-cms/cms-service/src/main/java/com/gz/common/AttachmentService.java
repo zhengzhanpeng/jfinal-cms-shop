@@ -18,7 +18,6 @@ public class AttachmentService {
     // Remove singleton pattern
     @Autowired
     private AttachmentRepository attachmentRepository;
-    
     public Attachment save(String name, String url, String mini_type , String suffix, Integer content_id, double size){
         Attachment attachment=new Attachment();
         attachment.setName(name);
@@ -51,7 +50,6 @@ public class AttachmentService {
     }
     @Autowired
     private ContentAttachmentRepository contentAttachmentRepository;
-    
     public ContentAttachment getContentAttachment(int contentId,int attachment){
         return  contentAttachmentRepository.findByContentIdAndAttachmentId(contentId, attachment);
     }
