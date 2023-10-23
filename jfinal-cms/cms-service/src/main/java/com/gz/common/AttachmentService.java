@@ -5,8 +5,10 @@ import com.gz.common.model.Attachment;
 import com.gz.common.model.ContentAttachment;
 import com.gz.utils.FileUtil;
 import org.springframework.data.domain.Page;
-import org.springframework.web.multipart.MultipartFile;
-
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+@Service
+public class AttachmentService {
 import java.util.Date;
 import java.util.List;
 
