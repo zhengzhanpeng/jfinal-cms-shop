@@ -5,9 +5,16 @@ import com.alibaba.fastjson.JSONObject;
 import com.gz.common.model.*;
 import com.gz.utils.JSONUtil;
 import com.gz.utils.StringUtil;
-import com.jfinal.kit.StrKit;
-import com.jfinal.plugin.activerecord.Db;
-import com.jfinal.plugin.activerecord.Page;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.stereotype.Service;
+import org.springframework.beans.factory.annotation.Autowired;
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.Query;
+import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -17,29 +24,29 @@ import java.util.Map;
 /**
  * Created by gongzhen on 2018/6/2.
  */
+@Service
 public class ProductService {
-    private static ProductService service;
 
-    private ProductService() {
-    }
+    @Autowired
+    private ProductRepository productRepository;
+    @Autowired
+    private CategoryRepository categoryRepository;
+    @Autowired
+    private ProductAttributeRepository productAttributeRepository;
+    @PersistenceContext
+    private EntityManager entityManager;
 
-    public static ProductService getService() {
-        if (service == null) {
-            service = new ProductService();
-        }
-        return service;
-    }
     public Page<Product> getProductPage(int pageNum,int pageSize,String condition){
         if(StringUtil.isEmpty(condition)){
             condition="1=1";
         }
-        Page<Product> productPage=Product.dao.paginate(pageNum,pageSize,"select * ","from tb_product where "+ condition+" order by sort_num desc,id desc");
-        for(Product product:productPage.getList()){
-            product.put("category",getCategory(product.getProductCategoryId()).getName());
-            product.put("productAttribute",getProductAttribute(product.getId()));
+        Page<Product> productPage= productRepository.findAll(PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.DESC, "sortNum", "id")));
+        for(Product product:productPage.getContent()){
+            product.setCategory(getCategory(product.getProductCategoryId()).getName());
+            product.setProductAttribute(getProductAttribute(product.getId()));
             System.out.println(product.getParameterValue());
 /*
-            product.put("productParameterValue", JSONUtil.parseToJsonArray("[{\"key\":\"重量\",\"value\":\"300g\"}]"));
+            product.setProductParameterValue(JSON.parseArray("[{\"key\":\"重量\",\"value\":\"300g\"}]"));
 */
             product.put("pictures",AttachmentService.getService().getProductImgList(product.getId()));
             product.put("thumbnail_temp",Constant.FILE_PATH+product.getThumbnail());
@@ -47,20 +54,20 @@ public class ProductService {
         return productPage;
     }
     public List<Product> getProductList() {
-        List<Product> productList= Product.dao.find("select * from tb_product where isMarketable=1 order by sort_num desc,id desc");
+        List<Product> productList= productRepository.findByIsMarketableTrueOrderBySortNumDescIdDesc();
         for(Product product:productList){
-            product.put("thumbnail_temp",Constant.FILE_PATH+product.getThumbnail());
+            product.setThumbnailTemp(Constant.FILE_PATH+product.getThumbnail());
         }
         return productList;
     }
     public Product getProduct(Integer id) {
-        Product product=Product.dao.findById(id);
+        Product product=productRepository.findById(id).orElse(null);
         if(product!=null){
-            product.put("category",getCategory(product.getProductCategoryId()).getName());
-            product.put("productAttribute",getProductAttribute(product.getId()));
+            product.setCategory(getCategory(product.getProductCategoryId()).getName());
+            product.setProductAttribute(getProductAttribute(product.getId()));
             System.out.println(product.getParameterValue());
 /*
-            product.put("productParameterValue", JSONUtil.parseToJsonArray("[{\"key\":\"重量\",\"value\":\"300g\"}]"));
+            product.setProductParameterValue(JSON.parseArray("[{\"key\":\"重量\",\"value\":\"300g\"}]"));
 */
             product.put("pictures",AttachmentService.getService().getProductImgList(product.getId()));
             product.put("thumbnail_temp",Constant.FILE_PATH+product.getThumbnail());
@@ -73,7 +80,8 @@ public class ProductService {
                 "(SELECT productId from tb_product_promotion WHERE promotionId in\n" +
                 "(SELECT id from tb_promotion where   (startDate>='"+promotion.getEndDate()+"' and endDate<='"+promotion.getEndDate()+"')or (startDate>='"+promotion.getStartDate()+"' and endDate>='"+promotion.getStartDate()+"') and type="+promotion.getType()+"))";
         System.out.println(sql);
-        List<Product> productList=Product.dao.find(sql);
+        Query query = entityManager.createNativeQuery(sql, Product.class);
+        List<Product> productList = query.getResultList();
         for (Product product:productList){
             if(product!=null){
                 product.put("thumbnail_temp",Constant.FILE_PATH+product.getThumbnail());
@@ -101,7 +109,7 @@ public class ProductService {
 
 
     public int getCategoryProductCount(int category){
-        return Product.dao.find("SELECT id from tb_product WHERE productCategoryId=?",category).size();
+        return productRepository.findByProductCategoryId(category).size();
     }
 
     /**
@@ -135,7 +143,10 @@ public class ProductService {
     }
 
     public int delProductAttributeValueBySKU(String[] ids,Integer productId){
-        return Db.update("delete from tb_product_attribute_value where productId=? and id not in ("+StrKit.join(ids,",")+")",productId);
+        String notInIds = Stream.of(ids).map(String::valueOf).collect(Collectors.joining(","));
+        Query query = entityManager.createNativeQuery("delete from tb_product_attribute_value where productId=?1 and id not in ("+notInIds+")");
+        query.setParameter(1, productId);
+        return query.executeUpdate();
     }
     public List<ProductAttributeValue> getProductAttributeValuesBySKU(Integer productId){
         List<ProductAttributeValue> productAttributeValueList= ProductAttributeValue.dao.find("SELECT * from tb_product_attribute_value where productId=?",productId);
