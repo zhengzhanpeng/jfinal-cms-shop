@@ -5,7 +5,8 @@ import com.alibaba.fastjson.JSONObject;
 import com.gz.common.ProductService;
 import com.gz.common.model.*;
 import com.gz.utils.Response;
-import com.jfinal.core.Controller;
+import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.RequestParam;
 import com.jfinal.plugin.activerecord.Page;
 
 import java.util.ArrayList;
@@ -16,34 +17,32 @@ import java.util.Map;
 /**
  * Created by gongzhen on 2018/6/2.
  */
-public class IndexController extends Controller{
-    public void index(){
-            renderJson("index");
+@RestController
+public class IndexController {
+    public String index(){
+            return "index";
     }
-    public void getAdList(){
+    public String getAdList(){
         List<Ad> adList= ProductService.getService().getAdList();
-        renderJson(Response.responseJson(0,"成功",adList));
+        return Response.responseJson(0,"成功",adList);
     }
-    public void getProductPage(){
-        int pageNum=getParaToInt("pageNum",1);
-        int pageSize=getParaToInt("pageSize",10);
+    public String getProductPage(@RequestParam(defaultValue = "1") int pageNum, @RequestParam(defaultValue = "10") int pageSize){
         Page<Product> productPage= ProductService.getService().getProductPage(pageNum,pageSize,null);
-        renderJson(Response.responseJson(0,"成功",productPage));
+        return Response.responseJson(0,"成功",productPage);
     }
-    public void getCategorys(){
-        renderJson(Response.responseJson(0,"成功",ProductService.getService().getCategoryList()));
+    public String getCategorys(){
+        return Response.responseJson(0,"成功",ProductService.getService().getCategoryList());
     }
-    public void getProduct(){
-        Product product=ProductService.getService().getProduct(getParaToInt("id",0));
-        renderJson(Response.responseJson(0,"成功",product));
+    public String getProduct(@RequestParam(defaultValue = "0") int id){
+        Product product=ProductService.getService().getProduct(id);
+        return Response.responseJson(0,"成功",product);
     }
     /**
      * 获取商品格值组
      */
-    public void getSpecification(){
-        int productId=getParaToInt("productId",0);
+    public String getSpecification(@RequestParam(defaultValue = "0") int productId){
         Map<String,Object> result=  ProductService.getService().getSpecification(productId);
-        renderJson(Response.responseJson(0,"成功",result));
+        return Response.responseJson(0,"成功",result);
     }
 
 
