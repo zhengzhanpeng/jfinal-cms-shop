@@ -13,25 +13,18 @@ import java.util.List;
 /**
  * Created by gongzhen on 2016/12/1.
  */
+@Service
 public class AttachmentService {
-    private static AttachmentService service;
-
-    private AttachmentService() {
-    }
-
-    public static AttachmentService getService() {
-        if (service == null) {
-            service = new AttachmentService();
-        }
-        return service;
-    }
+    // Remove singleton pattern
+    @Autowired
+    private AttachmentRepository attachmentRepository;
     public Attachment save(String name, String url, String mini_type , String suffix, Integer content_id, double size){
         Attachment attachment=new Attachment();
         attachment.setName(name);
         attachment.setUrl(url);
         attachment.setMimeType(mini_type);
         attachment.setSuffix(suffix);
-        attachment.save();
+        attachmentRepository.save(attachment);
         return attachment;
     }
 
@@ -40,7 +33,7 @@ public class AttachmentService {
      * @param file
      * @return UploadFile file
      */
-    public Attachment getAttachmentByFile(UploadFile file){
+    public Attachment getAttachmentByFile(MultipartFile file){
         Attachment attachment=new Attachment();
         attachment.setCreated(new Date());
         attachment.setSuffix(FileUtil.getFileExtension(file.getFileName()));
@@ -50,19 +43,21 @@ public class AttachmentService {
         return attachment;
     }
     public List<Attachment> getList(int contentId){
-        return Attachment.dao.find("SELECT tb_attachment.* FROM tb_attachment RIGHT  JOIN tb_content_attachment on tb_content_attachment.attachmentId=tb_attachment.id  WHERE contentId=?",contentId);
+        return attachmentRepository.findByContentId(contentId);
     }
     public List<Attachment> getProductImgList(int productId){
-        return Attachment.dao.find("SELECT tb_attachment.* FROM tb_attachment RIGHT  JOIN tb_product_attachment on tb_product_attachment.attachmentId=tb_attachment.id  WHERE productId=?",productId);
+        return attachmentRepository.findByProductId(productId);
     }
+    @Autowired
+    private ContentAttachmentRepository contentAttachmentRepository;
     public ContentAttachment getContentAttachment(int contentId,int attachment){
-        return  ContentAttachment.dao.findFirst("SELECT * from tb_content_attachment WHERE contentId=? and attachmentId=?",contentId,attachment);
+        return  contentAttachmentRepository.findByContentIdAndAttachmentId(contentId, attachment);
     }
 
     public Page<Attachment> getAttachmentPage(int pageNum, int pageSize) {
-        Page<Attachment> attachmentPage= Attachment.dao.paginate(pageNum,pageSize,"select * ","from tb_attachment order by id desc");
-        for(Attachment attachment:attachmentPage.getList()){
-            attachment.put("thumbnail_temp",Constant.FILE_PATH+attachment.getUrl());
+        Page<Attachment> attachmentPage= attachmentRepository.findAll(PageRequest.of(pageNum, pageSize, Sort.by(Sort.Direction.DESC, "id")));
+        for(Attachment attachment:attachmentPage.getContent()){
+            attachment.setThumbnailTemp(Constant.FILE_PATH+attachment.getUrl());
         }
         return  attachmentPage;
     }
