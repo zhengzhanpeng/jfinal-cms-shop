@@ -2,7 +2,7 @@ package com.gz.utils;
 
 
 
-import com.sun.jersey.core.util.Base64;
+import org.springframework.util.Base64Utils;
 
 import java.io.*;
 
@@ -29,7 +29,7 @@ public final class Base64Util
      * @throws Exception
      */
     public static byte[] decode(String base64) throws Exception {
-        return Base64.decode(base64.getBytes());
+        return Base64Utils.decodeFromString(base64);
     }
 
     /**
@@ -42,7 +42,7 @@ public final class Base64Util
      * @throws Exception
      */
     public static String encode(byte[] bytes) throws Exception {
-        return new String(Base64.encode(bytes));
+        return Base64Utils.encodeToString(bytes);
     }
 
     /**
