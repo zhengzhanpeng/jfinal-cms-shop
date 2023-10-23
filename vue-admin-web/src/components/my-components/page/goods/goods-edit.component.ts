@@ -10,16 +10,16 @@ export class GoodsEditComponent implements OnInit {
   categories: Category[] = [];
   attributes: Attribute[] = [];
 
-  constructor(){}
+  constructor() {}
 
   ngOnInit(): void {
-    this.productService.getProduct(this.productId).subscribe(product=>this.product = product);
-    this.categoryService.getCategories().subscribe(categories=>this.categories = categories);
-    this.attributeService.getAttributes().subscribe(attributes=>this.attributes = attributes);
+    this.productService.getProduct(this.productId).subscribe(product => this.product = product);
+    this.categoryService.getCategories().subscribe(categories => this.categories = categories);
+    this.attributeService.getAttributes().subscribe(attributes => this.attributes = attributes);
   }
 
   saveProduct(): void {
-    this.productService.saveProduct(this.product).subscribe(()=>this.goBack());
+    this.productService.saveProduct(this.product).subscribe(() => this.goBack());
   }
   
   goBack(): void {
@@ -31,7 +31,7 @@ export class GoodsEditComponent implements OnInit {
   }
   
   get productAttributes(): Attribute[] {
-    return this.attributes.filter(attribute=>attribute.productId === this.product.id);
+    return this.attributes.filter(attribute => attribute.productId === this.product.id);
   }
 }
 ```
